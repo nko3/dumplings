@@ -34,15 +34,44 @@ var server = http.createServer(app).listen(app.get('port'))
 var io = io.listen(server);
 
 
+var socGames = {}, playersSoc = {}, socPlayers = {};
+
+
 io.on('connection', function(socket) {
   socket.on('game-request',function(id) {
   });
 
-  socket.on('user-save', function(name,cb) {
-    var user = new db.User({ name: name });
-    user.save(function(error) {
+  socket.on('game-create',function() {
+    // create game for this session
+   
+    if (!socPlayers[socket]) {
+      socket.emit('error','Login player first');
+      return 0;
+    }
+
+    var game = new db.Game({
+      players: [socPlayers[socket]]
+    });
+
+    game.save(function(error) {
       if (!error) {
-        cb(user._id)
+        socket.emit('game-create',game.id);
+      }
+    });
+
+  });
+
+  socket.on('player-login', function(id) {
+    // log given player to current socket
+    playersSoc[id] = socket;
+    socPlayers[socket] = id;
+  });
+
+  socket.on('player-create', function(name) {
+    var player = new db.Player({ name: name });
+    player.save(function(error) {
+      if (!error) {
+        socket.emit('player-create',{ id: player.id });
       }
     })
   });

@@ -17,7 +17,8 @@ var playerSchema = mongoose.Schema({
 var PlayerDB = db.model('players', playerSchema);
 
 var gameSchema = mongoose.Schema({
-  name: String,
+  players: Array, 
+  movies: Array,
   created : { type: Date, default: Date.now }
 });
 
