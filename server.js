@@ -50,16 +50,12 @@ function randMovies(cb) {
       if (selected_num >= num) {
         _.each(selected, function(value,key) {
           if (_.keys(value).length <= 3) {
-            var ha = {};
-            ha[movie.id] = movie.yt.title;
-            _.extend(selected[key],ha);
+            selected[key].push({ id: movie.id, title: movie.yt.title });
           }
         });
       } else {
-        selected[movie.yt.id] = {}
-        var ha = {};
-        ha[movie.id] = movie.yt.title;
-        _.extend(selected[movie.yt.id],ha);
+        selected[movie.yt.id] = []
+        selected[movie.yt.id].push({ id: movie.id, title: movie.yt.title });
         selected_num += 1;
       }
     });
