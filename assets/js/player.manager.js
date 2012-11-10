@@ -10,6 +10,8 @@
   }
 
   PlayerManager.prototype.create_players = function (number) {
+    console.log("[game] PlayerManager create_players");
+
     var i = 0;
 
     for (; i < number; ++i) {
@@ -17,16 +19,19 @@
     }
   };
 
-  PlayerManager.prototype.run_players_in_queue = function (callback) {
+  PlayerManager.prototype.load_all_players_buffer = function (callback) {
+    console.log("[game] PlayerManager load_all_players_buffer");
+
     var self = this,
       i = 0,
-      ready_interval,
+      ready_interval = 0,
       number_of_ready_players = 0,
-      max_ready_players = this._players.length;
+      max_ready_players = this._players.length,
+      run_callback = false;
 
     for (; i < this._players.length; ++i) {
       (function (i) {
-        self._players[i].play();
+        self._players[i].append_buffer();
 
         ready_interval = setInterval(function () {
           // jeśli player jest gotowy, to zwiekszamy licznik dostpnym playerow
@@ -35,15 +40,35 @@
           }
 
           // jesli wszystkie playery sa dostepne to uruchamiamy callback
-          if (number_of_ready_players === max_ready_players) {
+          if (number_of_ready_players === max_ready_players && !run_callback) {
             clearInterval(ready_interval);
             callback();
+
+            run_callback = true;
           }
         }, 300);
       })(i);
     }
-
   };
+
+  PlayerManager.prototype.play_queue = function (callback, players) {
+//    console.log("[game] PlayerManager play_queue");
+
+    var self = this;
+
+    players = players.slice();
+
+    // jesli tablica jest pusta wywolaj callback
+    if (players.length === 0) {
+      callback();
+    } else {
+      players[0].play_movie(function (uid) {
+        players.shift();
+        console.log("[game] Played#" + uid + " finish");
+        self.play_queue(callback, players);
+      });
+    }
+  }
 
   PlayerManager.prototype._create_player = function () {
     var uid = this._last_player_id++;

@@ -5,7 +5,7 @@
   var global = this;
 
   function get_percent(total_seconds, percent) {
-    return total_seconds * percent / 100;
+    return parseInt((total_seconds * percent / 100).toFixed(0), 10);
   }
 
   function get_rand_progress(from, to) {
@@ -24,10 +24,12 @@
     this._uid = config.id;
     // init library player
     this._lib = null;
+
     // sekunda od ktorej zaczynamy buforowac film
-    this._start_time = null;
+    this._start_time = 0;
     // sekunds do ktorej mozna odtworzyc film zbuforowany
-    this._end_time = null;
+    this._end_time = 0;
+
     // czy jest gotowy do odtworzenia
     // - czy sie zbuforowalo ileś tam procent to przestawiamy flage
     // - albo po timeoutcie przestawiamy flage
@@ -39,71 +41,7 @@
     this._events();
   }
 
-  Player.MAX_MOVIE_PLAY = 30;
-
-  Player.prototype._init = function () {
-    // console.log("[game] Player#"  + this._uid + " _init");
-
-    // tworzymy DOM do nowego gracza
-    this._create_dom();
-    // tworzym instacje player JWPLAYER
-    this._create_player();
-
-    // wylaczamy kontrolki
-    this._lib.setControls(true);
-    // console.log("[player] controls: hide");
-
-    // max glosnika
-    this._lib.setVolume(0);
-    // console.log("[player] volume: max");
-  };
-
-  Player.prototype._events = function () {
-    var self = this,
-      started = false;
-
-    // console.log("[game] Player#"  + this._uid + " _events");
-
-    this._lib.onBeforePlay(function () {
-      // console.log("[game] Player#"  + self._uid + " onBeforePlay");
-
-      // seekujemy do losowej wartosci
-      var rand_percent = get_rand_progress(5, 25);
-      var rand_second = get_percent(self._config.duration, rand_percent);
-      self._lib.seek(rand_second);
-      // console.log("[game] seekujemy do " + rand_percent + "% dla tego filmu bedzie to " + rand_second + "s");
-
-      self._start_time = rand_second;
-    });
-
-    this._lib.onTime(function () {
-      var current_time = parseInt((self._lib.getPosition()).toFixed(0), 10);
-//      console.log("current_time", current_time);
-
-      // zatrzymanie aby zbuforować od konkretnej minuty
-      if (!started && current_time != 0) {
-        self._lib.pause();
-      }
-      started = true;
-
-      // zatrzymanie po obejrzeniu 30 sekund
-      if (self._start_time + Player.MAX_MOVIE_PLAY <= current_time) {
-        // zatrzymaj material po Player.MAX_MOVIE_PLAY sekundach
-        self._lib.stop();
-      }
-    });
-
-    this._lib.onBufferChange(function (buffer) {
-//      var buffer = self._lib.getBuffer();
-//      console.log("buffer#" + self._uid, buffer);
-      self._end_time = percent_to_seconds(buffer.bufferPercent, self._config.duration);
-      // console.log("end#" + self._uid, self._end_time);
-
-      if (self._start_time + Player.MAX_MOVIE_PLAY <= self._end_time) {
-        self._is_ready = true;
-      }
-    });
-  };
+  Player.MAX_MOVIE_PLAY = 10;
 
   Player.prototype._create_dom = function () {
     // console.log("[game] Player#"  + this._uid + " _create_dom");
@@ -129,14 +67,119 @@
     // console.log(this._lib);
   };
 
-  Player.prototype.play = function () {
-    // console.log("[game] Player#" + this._uid + " play");
+  Player.prototype._init = function () {
+    // console.log("[game] Player#"  + this._uid + " _init");
+
+    // tworzymy DOM do nowego gracza
+    this._create_dom();
+    // tworzym instacje player JWPLAYER
+    this._create_player();
+
+    // wylaczamy kontrolki
+    this._lib.setControls(true);
+    // console.log("[player] controls: hide");
+
+    // max glosnika
+    this._lib.setVolume(0);
+    // console.log("[player] volume: max");
+  };
+
+  Player.prototype._events = function () {
+    var self = this,
+      started = false;
+
+    // console.log("[game] Player#"  + this._uid + " _events");
+
+    this._lib.onBeforePlay(function () {
+//      console.log("[game] Player#"  + self._uid + " onBeforePlay");
+      if (self._is_ready) {
+        // jeśli player jest gotowy to nic nie rób
+        return false;
+      }
+
+      // seekujemy do losowej wartosci
+      var rand_percent = get_rand_progress(5, 25);
+      var rand_second = get_percent(self._config.duration, rand_percent);
+      self._lib.seek(rand_second);
+      console.log("[game] seek #" + self._uid + " do " + rand_percent + "% dla tego filmu bedzie to " + rand_second + "s");
+
+      self._start_time = rand_second;
+    });
+
+    this._lib.onTime(function () {
+//      console.log("[game] Player#"  + self._uid + " onTime");
+      if (self._is_ready) {
+        // jeśli player jest gotowy to nic nie rób
+        return false;
+      }
+
+      var current_time = parseInt((self._lib.getPosition()).toFixed(0), 10);
+//      console.log("current_time", current_time);
+
+      // zatrzymanie aby zbuforować od konkretnej minuty
+      if (!started && current_time !== 0) {
+        self._lib.pause();
+      }
+      started = true;
+    });
+
+    this._lib.onBufferChange(function (buffer) {
+      // console.log("[game] Player#"  + self._uid + " onBufferChange");
+
+      var current_time = parseInt((self._lib.getPosition()).toFixed(0), 10);
+
+      // zatrzymanie po obejrzeniu 30 sekund
+      if (self._start_time + Player.MAX_MOVIE_PLAY <= current_time) {
+        // zatrzymaj material po Player.MAX_MOVIE_PLAY sekundach
+        self._lib.stop();
+
+      if (self._is_ready) {
+        // jeśli player jest gotowy to nic nie rób
+        return false;
+      }
+      }
+
+      if (!self._is_ready) {
+        self._end_time = percent_to_seconds(buffer.bufferPercent, self._config.duration);
+      }
+
+      if (self._start_time + Player.MAX_MOVIE_PLAY <= self._end_time) {
+        if (self._lib.getState() === "PAUSED") {
+          self._is_ready = true;
+        }
+      }
+    });
+  };
+
+  Player.prototype.append_buffer = function () {
+    // console.log("[game] Player#" + this._uid + " append_buffer");
 
     // uruchamiamy player
     this._lib.play(true);
 
     this.loading_timeout();
   };
+
+  Player.prototype.play_movie = function (callback) {
+    console.log("[game] Player#" + this._uid + " play");
+
+    var self = this,
+      finish_interval;
+
+    this._lib.play();
+
+    finish_interval = setInterval(function () {
+      var current_time = parseInt((self._lib.getPosition()).toFixed(0), 10);
+
+//      console.log("[game] Player#" + self._uid + ": ", self._end_time, current_time);
+
+      if (self._start_time + Player.MAX_MOVIE_PLAY <= current_time) {
+        clearInterval(finish_interval);
+        callback(self._uid);
+      }
+    }, 300);
+  };
+
 
   Player.prototype.loading_timeout = function () {
     var self = this;
