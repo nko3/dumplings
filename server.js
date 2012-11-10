@@ -35,7 +35,7 @@ var server = http.createServer(app).listen(app.get('port'))
 var io = io.listen(server);
 
 
-var socGames = {}, playersSoc = {}, socPlayers = {};
+var socGames = {}, playersSoc = {}, socPlayers = {}, players = {};
 
 
 
@@ -94,6 +94,17 @@ GameManager = (function() {
 var gm = new GameManager(io.sockets);
 
 
+
+function getPS(player_id) {
+  var to = players[player_id];
+  return io.sockets.socket(to)
+}
+
+function getSP(socket_id) {
+  return _.invert(players)[socket_id]
+}
+
+
 io.on('connection', function(socket) {
 
   socket.on('game-play',function(id) {
@@ -104,16 +115,15 @@ io.on('connection', function(socket) {
           var isOk = true;
 
           game.players.forEach(function(player){
-            if (!playersSoc[player]) {
+            if (!getPS(player)) {
               socket.emit('error',"NOT EVERY PLAYER ONLINE");
               isOk = false;
             }
           });
 
           if (isOk) {
-            
             game.players.forEach(function(player) {
-              socket.emit('game-play',{
+              getPS(player).emit('game-play',{
                 movies: game.movies
               });
             });
@@ -128,14 +138,14 @@ io.on('connection', function(socket) {
 
   socket.on('game-create',function() {
     // create game for this session
-   
-    if (!socPlayers[socket]) {
-      socket.emit('error','Login player first');
+    
+    if (!getSP(socket.id)) {
+      socket.emit('error','Login player first socket = '+socket.id);
       return 0;
     }
 
     var game = new db.Game({
-      players: [socPlayers[socket]]
+      players: [getSP(socket.id)]
     });
 
     game.save(function(error) {
@@ -168,19 +178,18 @@ io.on('connection', function(socket) {
           var isOk = true;
 
           game.players.forEach(function(player){
-            if (!playersSoc[player]) {
+            if (!getPS(player)) {
               socket.emit('error',"NOT EVERY PLAYER ONLINE");
               isOk = false;
             } else {
-              playersSoc[player].emit('error','PLAYER '+player+' is connecting...');
+              getPS(player).emit('error','PLAYER '+player+' is connecting...');
             }
           });
 
           if (isOk) {
-            game.players.push(socPlayers[socket]);
+            game.players.push(getSP(socket.id));
             game.save(function(err) {
               socket.emit('game-join',{ players: game.players });
-
             });
           } else {
             socket.emit('error',"GAME IS FUCKED UP");
@@ -201,21 +210,22 @@ io.on('connection', function(socket) {
 
   socket.on('player-login', function(id) {
     // log given player to current socket
-
-    var chuj = socket;
-
-    playersSoc[id] = chuj;
-    socPlayers[chuj] = id;
+    players[id] = socket.id;
   });
 
   socket.on('player-create', function(name) {
     var player = new db.Player({ name: name });
     player.save(function(error) {
       if (!error) {
+        players[player.id] = socket.id;
         socket.emit('player-create',{ id: player.id });
       }
     })
   });
+
+  //setInterval(function() {
+  //  socket.emit('error',players);
+  //},5000)
 
 });
 
