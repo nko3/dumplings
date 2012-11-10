@@ -3,11 +3,12 @@
 
 var http = require('http'), db = require('./../db');
 
+// http://gdata.youtube.com/feeds/api/videos?author=sonypictures&v=2&alt=json
 
 function grabYT(query,from,callback) {
   if (!from) { from = ""; } else { from = "&start-index="+from; }
 
-  http.get("http://gdata.youtube.com/feeds/api/videos?q="+query.replace(' ','%20')+"&v=2&alt=jsonc&max-results=50"+from, function(res) {
+  http.get("http://gdata.youtube.com/feeds/api/videos?q="+query.replace(' ','%20')+"&v=2&alt=jsonc&category=Trailers&max-results=50"+from, function(res) {
     var buf = ""
     res.on('data', function (chunk) {
       buf += chunk;
@@ -28,7 +29,7 @@ function grabAndSaveToDb(from) {
   grabYT('movie official trailer',from,function(data) {
     var result = JSON.parse(data);
 
-    console.log({
+    console.log(result.data,{
       startIndex: result.data.startIndex
     });
 
@@ -53,7 +54,7 @@ function grabAndSaveToDb(from) {
 
 }
 
-grabAndSaveToDb(900);
+grabAndSaveToDb(1000);
 
 
 
