@@ -19,7 +19,8 @@
 
       $(".send-link").val(protocol + "//" + host + pathname + "#" + game_url);
 
-      document.location.hash = game_url;
+      // NEXT STEP
+      // document.location.hash = game_url;
 
       sent_link.init();
     },
