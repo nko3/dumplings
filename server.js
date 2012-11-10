@@ -61,6 +61,46 @@ io.on('connection', function(socket) {
 
   });
 
+
+  socket.on('game-join',function(id) {
+    // find game
+    // check state
+    // check if everybody is online
+    // add players
+
+    db.Game.findById(id,function(err,game) {
+      if (game) {
+
+        if (game.players.length < 2 ) {
+
+          var isOk = true;
+
+          game.players.forEach(function(player){
+            if (!playersSoc[player]) {
+              socket.emit('error',"NOT EVERY PLAYER ONLINE");
+              isOk = false;
+            }
+          });
+
+          if (isOk) {
+            socket.emit('game-join',{ players: game.players });
+          } else {
+            socket.emit('error',"GAME IS FUCKED UP");
+          }
+
+        } else {
+          socket.emit('error','GAME HAS 2 PLAYERS ALREADY');
+        }
+
+      } else {
+        socket.emit('error','GAME DO NOT EXISTS');
+      }
+    });
+
+
+
+  });
+
   socket.on('player-login', function(id) {
     // log given player to current socket
     playersSoc[id] = socket;

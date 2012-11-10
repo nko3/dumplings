@@ -42,6 +42,11 @@
       console.log('[game] created id:'+id);
     });
 
+    // socket.emit('game-join',id)
+
+    socket.on('game-join', function(game) {
+      console.log('[game] joined',game);
+    });
 
     // common error handler
     socket.on('error', function(msg) {
