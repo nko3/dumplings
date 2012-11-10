@@ -1,9 +1,8 @@
-
 /*
  * GET home page.
  */
 
-exports.index = function(req, res){
+exports.index = function (req, res) {
 
   if (app.get('env') == 'production') {
     socket = 'http://dumplings.nko3.jit.su/';
@@ -11,5 +10,10 @@ exports.index = function(req, res){
     socket = 'http://localhost:3000/';
   }
 
-  res.render('index', { title: 'TrailerPOP', config: { socket: socket } });
+  res.render('index', {
+    title: 'TrailerPOP', config: {
+      socket: socket,
+      env: app.get('env')
+    }
+  });
 };

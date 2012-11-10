@@ -1,8 +1,6 @@
 $(function () {
   var submit = $(".login-form .submit"),
-    name = $(".name"),
-
-    HALT_LOGIN_FORM = false;
+    name = $(".name");
 
   // keypress - > active submit
   name.keyup(function () {
@@ -18,7 +16,7 @@ $(function () {
   $(".login-form form").submit(function (evt) {
     console.log("[game] logining...");
 
-    if (HALT_LOGIN_FORM) {
+    if (Config.evn === "production") {
       alert("Wypierdalaj " + name.val() + "!");
     } else {
       socket.emit("player-create", name.val());

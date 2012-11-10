@@ -21,8 +21,7 @@
     // socket.emit('player-create', 'CHOSEN_NAME');
 
     socket.on('player-create', function (data) {
-      console.log('[player] created');
-      console.log(data); // data.id
+      console.log('[game] ✓ player created', data.id);
 
       pklib.cookie.create("user_id", data.id);
 
@@ -33,7 +32,7 @@
     // socket.emit('game-create')
 
     socket.on('game-create', function (id) {
-      console.log('[game] created id:' + id);
+      console.log('[game] ✓ game created id', id);
 
       document.location.hash = "#/game/" + id;
     });
@@ -41,18 +40,18 @@
     // socket.emit('game-join',id)
 
     socket.on('game-join', function (game) {
-      console.log('[game] joined', game);
+      console.log('[game] ✓ player joined', game);
     });
 
     // socket.emit('game-start',id)
 
     socket.on('game-play', function (game) {
-      console.log('[game] start', game);
+      console.log('[game] ✓ game start', game);
     });
 
     // socket.emit('game-answer', game_id, movie_id, answer_id, time);
     socket.on('game-answer', function (game_id, movie_id, answer_id, time, player_id, correct) {
-      console.log('[game] answer', player_id, correct);
+      console.log('[game] ✓ game answer', player_id, correct);
     });
 
     // common error handler

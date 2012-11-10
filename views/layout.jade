@@ -4,7 +4,10 @@ html
     title= title
     != css('app')
     script
-      var Config = { socket : "#{config.socket}" }
+      var Config = {
+        socket : "#{config.socket}",
+        env: "#{config.env}"
+      };
     != js('app')
 
     script(src="/jwplayer/jwplayer.js")
