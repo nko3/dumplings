@@ -12,12 +12,10 @@
 
     var player_manager = new trailer.PlayerManager();
     // stworz playery
-    player_manager.create_players(5, function () {
-      // wszystkie filmy juz sie zaladowaly i sa dostepne
+    player_manager.create_players(3);
+    player_manager.run_players_in_queue();
 
-    });
-
-    var socket = new io.connect(Config.socket);
+    global.socket = new io.connect(Config.socket);
     socket.on('connect', function () {
       console.log('[game] connected');
     });
