@@ -48,9 +48,11 @@ function randMovies(cb) {
 
     coll.forEach(function(movie) {
       if (selected_num >= num) {
+        var trig = false;
         _.each(selected, function(value,key) {
-          if (_.keys(value).length <= 3) {
+          if (_.keys(value).length <= 3 & !trig) {
             selected[key].push({ id: movie.id, title: movie.yt.title });
+            trig = true;
           }
         });
       } else {
@@ -60,11 +62,11 @@ function randMovies(cb) {
       }
     });
 
-    console.log(selected);
+    cb(selected);
   });
 }
 
-randMovies();
+randMovies(function(movies) { console.log(movies); });
 
 
 io.on('connection', function(socket) {
