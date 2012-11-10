@@ -73,7 +73,6 @@
     } else {
       players[0].play_movie(function (uid) {
         last = players.shift();
-        console.log("last", last._dom);
         last._lib.remove();
         last._dom.remove();
 

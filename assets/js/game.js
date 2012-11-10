@@ -22,6 +22,9 @@
 
       player_manager.play_queue(function () {
         console.log("✓ All movies played!");
+
+        $(".answers-wrapper, .videos-wrapper").hide();
+        $(".thank-you").fadeIn();
       }, player_manager._players);
     });
 
