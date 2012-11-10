@@ -44,7 +44,7 @@ function randMovies(cb) {
   var num = 5;
 
   db.Movie.find({}).limit(num*4).skip(parseInt(Math.random()*1000)).exec(function(err,coll) {
-    var selected = {}, selected_num = 0;
+    var selected = {}, selected_num = 0, correct = {};
 
     coll.forEach(function(movie) {
       if (selected_num >= num) {
@@ -56,13 +56,15 @@ function randMovies(cb) {
           }
         });
       } else {
-        selected[movie.yt.id] = []
+        selected[movie.yt.id] = [];
         selected[movie.yt.id].push({ id: movie.id, title: movie.yt.title });
         selected_num += 1;
+
+        correct[movie.yt.id] = movie.id;
       }
     });
 
-    cb(selected);
+    cb(selected,correct);
   });
 }
 
@@ -102,6 +104,16 @@ function getPS(player_id) {
 
 function getSP(socket_id) {
   return _.invert(players)[socket_id]
+}
+
+function findGame(socket,game_id,cb) {
+  db.Game.findById(game_id,function(err,game) {
+    if (game) {
+      cb(game);
+    } else {
+      socket.emit('error','GAME NOT FOUND');
+    }
+  });
 }
 
 
@@ -150,8 +162,9 @@ io.on('connection', function(socket) {
 
     game.save(function(error) {
       if (!error) {
-        randMovies(function(movies) {
+        randMovies(function(movies,correct) {
           game.movies = movies;
+          game.correct = correct;
           game.save(function(error) {
             if (!error) {
               socket.emit('game-create',game.id);
@@ -159,6 +172,39 @@ io.on('connection', function(socket) {
           });
         });
       }
+    });
+
+  });
+
+  socket.on('game-answer', function(game_id,movie_id,answer_id,time) {
+    // take game
+    // check if answer is correct
+    findGame(socket,game_id,function(game) {
+
+      // TODO: check if it's not over time
+      //
+      //
+
+      var goodAnswer = game.correct[movie_id] == answer_id;
+
+      game.players.forEach(function(player) {
+        console.log('player',player,goodAnswer);
+        getPS(player).emit('game-answer',game_id,movie_id,answer_id,time,getSP(socket.id),goodAnswer);
+      });
+
+
+      game.answers.push({
+        movie_id: movie_id,
+        answer_id: answer_id,
+        time: time,
+        correct: goodAnswer
+      });
+
+      game.save(function() {
+        // fuck results
+      });
+
+
     });
 
   });

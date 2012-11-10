@@ -20,6 +20,8 @@ var PlayerDB = db.model('players', playerSchema);
 var gameSchema = mongoose.Schema({
   players: Array, 
   movies: Mixed,
+  correct: Mixed,
+  answers: Array,
   created : { type: Date, default: Date.now }
 });
 
