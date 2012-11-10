@@ -14,4 +14,5 @@
 //= require screen-manager.js
 //= require game-manager.js
 //= require login-manager.js
+//= require sent-link.js
 

@@ -34,7 +34,7 @@
     socket.on('game-create', function (id) {
       console.log('[game] ✓ game created id', id);
 
-      document.location.hash = "#/game/" + id;
+      game_manager.send_link(id);
     });
 
     // socket.emit('game-join',id)

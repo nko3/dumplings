@@ -8,6 +8,19 @@
     init: function () {
       // screen_manager.show_screen("screen-hello"); // zalatwione przez css
     },
+
+    send_link: function (id) {
+      screen_manager.show_screen("screen-send-link");
+
+      var protocol = document.location.protocol;
+      var host = document.location.host;
+      var pathname = document.location.pathname;
+
+      $(".send-link").val(protocol + "//" + host + pathname + "#/game/" + id);
+
+      sent_link.init();
+    },
+
     game: function () {
       screen_manager.show_screen("screen-game");
 
