@@ -34,7 +34,8 @@
     socket.on('game-create', function (id) {
       console.log('[game] ✓ game created id', id);
 
-      game_manager.send_link(id);
+      login_manager.login(id);
+      game_manager.init_send_link_screen(id);
     });
 
     // socket.emit('game-join',id)

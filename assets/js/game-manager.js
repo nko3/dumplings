@@ -5,17 +5,13 @@
   var global = this;
 
   global.game_manager = {
-    init: function () {
-      // screen_manager.show_screen("screen-hello"); // zalatwione przez css
-    },
-
-    send_link: function (id) {
+    init_send_link_screen: function (id) {
       screen_manager.show_screen("screen-send-link");
 
       var protocol = document.location.protocol;
       var host = document.location.host;
       var pathname = document.location.pathname;
-      var game_url = "/game/" + id;
+      var game_url = "/game=" + id;
 
       $(".send-link").val(protocol + "//" + host + pathname + "#" + game_url);
 
@@ -25,7 +21,13 @@
       sent_link.init();
     },
 
-    game: function () {
+    init_versus: function () {
+      screen_manager.show_screen("screen-versus");
+
+      versus.init();
+    },
+
+    init_game_screen: function () {
       screen_manager.show_screen("screen-game");
 
       var player_manager = new trailer.MovieManager();
@@ -50,9 +52,4 @@
       });
     }
   };
-
-  $(function () {
-    // run game!
-    global.game_manager.init();
-  });
 }).call(this);

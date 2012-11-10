@@ -8,11 +8,11 @@
 //= require movie.js
 //= require movie-manager.js
 //= require player.js
-//= require player-manager.js
 //= require process-indicator.js
 //= require video-manager.js
 //= require screen-manager.js
 //= require game-manager.js
 //= require login-manager.js
 //= require sent-link.js
+//= require versus.js
 
