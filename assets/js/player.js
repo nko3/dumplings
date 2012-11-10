@@ -107,10 +107,7 @@
       self._lib.seek(rand_second);
       console.log("[game] seek #" + self._uid + " do " + rand_percent + "% dla tego filmu bedzie to " + rand_second + "s");
 
-
-      $(".videos-wrapper .progress .bar").animate({
-        width: "+=5%"
-      });
+      videos_manager.grow_loading_bar();
 
       self._start_time = rand_second;
     });

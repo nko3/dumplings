@@ -34,17 +34,12 @@
         self._players[i].append_buffer();
 
         ready_interval = setInterval(function () {
-          // jeśli player jest gotowy, to zwiekszamy licznik dostpnym playerow
+          // jeśli player jest gotowy, to zwiekszamy licznik dostpnych playerow
           if (self._players[i]._is_ready) {
             number_of_ready_players++;
 
-            var partial_percent = self._players.length;
-            var percent = parseInt((number_of_ready_players / partial_percent * 100).toFixed(0), 10);
-            if (percent <= 100) {
-              $(".videos-wrapper .progress .bar").animate({
-                width: percent + "%"
-              });
-            }
+            // pasek postepu
+            process_indicator.loading(number_of_ready_players, self._players);
           }
 
           // jesli wszystkie playery sa dostepne to uruchamiamy callback
@@ -54,7 +49,7 @@
 
             run_callback = true;
           }
-        }, 300);
+        }, 100);
       })(i);
     }
   };

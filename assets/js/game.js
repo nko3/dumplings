@@ -11,21 +11,24 @@
   $(function () {
 
     var player_manager = new trailer.PlayerManager();
+
     // stworz playery
     player_manager.create_players(5);
     player_manager.load_all_players_buffer(function () {
-      $(".videos").animate({
-        "left": 0
-      });
-      $(".videos-wrapper .progress").remove();
+
       console.log("✓ All movies loaded");
+
+      videos_manager.show_videos();
+      process_indicator.hide_progress_bar();
 
       player_manager.play_queue(function () {
         console.log("✓ All movies played!");
 
-        $(".answers-wrapper, .videos-wrapper").hide();
-        $(".thank-you").fadeIn();
+        videos_manager.hide_videos();
+        videos_manager.show_thanks();
+
       }, player_manager._players);
+
     });
 
     global.socket = new io.connect(Config.socket, {
@@ -43,8 +46,7 @@
       // TODO: Save player id to cookie
 
       console.log('[player] created');
-      console.log(data); // data.id 
-
+      console.log(data); // data.id
     });
 
     // socket.emit('game-create')
@@ -60,18 +62,15 @@
     });
 
     // socket.emit('game-start',id)
+
     socket.on('game-play', function(game) {
       console.log('[game] start', game);
     });
 
     // common error handler
     socket.on('error', function(msg) {
-      console.log('[ERROR]',msg);
+      console.log('[ERROR] ✗', msg);
     });
-
-
-
   });
-
 }).call(this);
 
