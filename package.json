@@ -1,6 +1,6 @@
 {
   "name": "nko3-dumplings",
-  "version": "0.0.0",
+  "version": "0.0.0-2",
   "description": "Dumplings",
   "main": "server.js",
   "scripts": {
@@ -11,6 +11,8 @@
     "url": "git@github.com:nko3/dumplings.git"
   },
   "dependencies": {
+   "express": "3.0.2",
+    "jade": "*"
   },
   "engines": {
     "node": "0.8.x"
