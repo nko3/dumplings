@@ -48,6 +48,11 @@
       console.log('[game] joined',game);
     });
 
+    // socket.emit('game-start',id)
+    socket.on('game-play', function(game) {
+      console.log('[game] start', game);
+    });
+
     // common error handler
     socket.on('error', function(msg) {
       console.log('[ERROR]',msg);

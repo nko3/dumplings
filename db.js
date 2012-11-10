@@ -1,6 +1,7 @@
 var mongoose = require('mongoose'), Mixed = mongoose.Schema.Types.Mixed;
 
-var db = mongoose.createConnection('mongodb://nodejitsu_nko3-dumplings:b3s2jallg1jj57n3pl3qirtirn@ds039267.mongolab.com:39267/nodejitsu_nko3-dumplings_nodejitsudb25521072');
+//var db = mongoose.createConnection('mongodb://nodejitsu_nko3-dumplings:b3s2jallg1jj57n3pl3qirtirn@ds039267.mongolab.com:39267/nodejitsu_nko3-dumplings_nodejitsudb25521072');
+var db = mongoose.createConnection('mongodb://localhost/dumplings');
 
 var movieSchema = mongoose.Schema({
   yt: Mixed,
@@ -18,7 +19,7 @@ var PlayerDB = db.model('players', playerSchema);
 
 var gameSchema = mongoose.Schema({
   players: Array, 
-  movies: Array,
+  movies: Mixed,
   created : { type: Date, default: Date.now }
 });
 

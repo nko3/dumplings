@@ -66,11 +66,64 @@ function randMovies(cb) {
   });
 }
 
-randMovies(function(movies) { console.log(movies); });
+
+
+
+var GameManager;
+
+GameManager = (function() {
+
+  function GameManager(sockets) {
+    this.sockets = sockets;
+  }
+
+  GameManager.prototype.addPlayer = function(socket) {
+
+  };
+
+  return GameManager;
+
+})();
+
+
+
+
+
+
+
+var gm = new GameManager(io.sockets);
 
 
 io.on('connection', function(socket) {
-  socket.on('game-request',function(id) {
+
+  socket.on('game-play',function(id) {
+    db.Game.findById(id,function(err,game) {
+      if (game) {
+        if (game.players.length == 2 ) {
+
+          var isOk = true;
+
+          game.players.forEach(function(player){
+            if (!playersSoc[player]) {
+              socket.emit('error',"NOT EVERY PLAYER ONLINE");
+              isOk = false;
+            }
+          });
+
+          if (isOk) {
+            
+            game.players.forEach(function(player) {
+              socket.emit('game-play',{
+                movies: game.movies
+              });
+            });
+
+          }
+
+
+        }
+      }
+    });
   });
 
   socket.on('game-create',function() {
@@ -87,7 +140,14 @@ io.on('connection', function(socket) {
 
     game.save(function(error) {
       if (!error) {
-        socket.emit('game-create',game.id);
+        randMovies(function(movies) {
+          game.movies = movies;
+          game.save(function(error) {
+            if (!error) {
+              socket.emit('game-create',game.id);
+            }
+          });
+        });
       }
     });
 
@@ -117,7 +177,7 @@ io.on('connection', function(socket) {
           });
 
           if (isOk) {
-            game.players.push(player);
+            game.players.push(socPlayers[socket]);
             game.save(function(err) {
               socket.emit('game-join',{ players: game.players });
 
@@ -141,8 +201,11 @@ io.on('connection', function(socket) {
 
   socket.on('player-login', function(id) {
     // log given player to current socket
-    playersSoc[id] = socket;
-    socPlayers[socket] = id;
+
+    var chuj = socket;
+
+    playersSoc[id] = chuj;
+    socPlayers[chuj] = id;
   });
 
   socket.on('player-create', function(name) {
