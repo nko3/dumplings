@@ -3,7 +3,8 @@ html
   head
     title= title
     != css('app')
-    script src='/socket.io/socket.io.js'
+    script
+      var Config = { socket : "#{config.socket}" }
     != js('app')
 
   body

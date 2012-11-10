@@ -32,5 +32,14 @@ app.configure('development', function(){
 var server = http.createServer(app).listen(app.get('port'))
 var io = io.listen(server);
 
-app.get('/', routes.index);
-app.get('/users', user.list);
+app.get('/', function(req, res){
+
+  if (app.get('env') == 'production') {
+    socket = 'http://dumplings.nko3.jit.su/';
+  } else {
+    socket = 'http://localhost:3000/';
+  }
+
+  res.render('index', { title: 'Express', config: { socket: socket } });
+});
+
