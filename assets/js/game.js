@@ -15,10 +15,10 @@
     // stworz playery
     player_manager.create_players(5);
     player_manager.load_all_players_buffer(function () {
-
       console.log("✓ All movies loaded");
 
       videos_manager.show_videos();
+      process_indicator.show_play_bar();
       process_indicator.hide_progress_bar();
 
       player_manager.play_queue(function () {

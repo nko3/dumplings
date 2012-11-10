@@ -5,6 +5,14 @@
   var global = this;
 
   global.process_indicator = {
+    hide_play_bar: function () {
+      $(".play-bar").hide();
+    },
+
+    show_play_bar: function () {
+      $(".play-bar").fadeIn();
+    },
+
     update_current_page_number: function (id) {
       $(".current-page").html(id);
     },
@@ -17,9 +25,8 @@
       $(".videos-wrapper .progress").remove();
     },
 
-    loading: function (number, players) {
-      var partial_percent = players.length;
-      var percent = parseInt((number / partial_percent * 100).toFixed(0), 10);
+    grow_loading: function (val, max) {
+      var percent = get_percent_value_of(val, max);
       if (percent <= 100) {
         $(".videos-wrapper .progress .bar").animate({
           width: percent + "%"

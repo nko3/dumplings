@@ -24,3 +24,11 @@ function lpad(staff, nr_fill, add_char) {
 
   return string;
 }
+
+function get_rand_value_between(from, to) {
+  return parseInt((Math.random() * (to - from) + from).toFixed(0), 10);
+}
+
+function get_percent_value_of(val, max) {
+  return parseInt((val * max/ 100).toFixed(0), 10);
+}

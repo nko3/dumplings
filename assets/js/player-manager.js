@@ -17,6 +17,15 @@
     for (; i < number; ++i) {
       this._players.push(this._create_player());
     }
+
+    process_indicator.update_total_page_number(number);
+  };
+
+  PlayerManager.prototype._create_player = function () {
+    var uid = this._last_player_id++;
+    var settings = trailer.List[uid];
+    settings.id = uid;
+    return new trailer.Player(settings);
   };
 
   PlayerManager.prototype.load_all_players_buffer = function (callback) {
@@ -24,22 +33,23 @@
 
     var self = this,
       i = 0,
-      ready_interval,
       number_of_ready_players = 0,
       max_ready_players = this._players.length,
       run_callback = false;
 
     for (; i < this._players.length; ++i) {
       (function (i) {
-        self._players[i].append_buffer();
+        var ready_interval;
+
+        self._players[i].load_buffer();
 
         ready_interval = setInterval(function () {
-          // jeśli player jest gotowy, to zwiekszamy licznik dostpnych playerow
+          // jeśli player jest gotowy, to zwiększamy licznik dostępnych playerów
           if (self._players[i]._is_ready) {
             number_of_ready_players++;
 
             // pasek postepu
-            process_indicator.loading(number_of_ready_players, self._players);
+            process_indicator.grow_loading(number_of_ready_players, self._players.length);
           }
 
           // jesli wszystkie playery sa dostepne to uruchamiamy callback
@@ -58,7 +68,7 @@
 //    console.log("[game] PlayerManager play_queue");
 
     var self = this,
-      last = null;
+        last = null;
 
     players = players.slice();
 
@@ -68,20 +78,14 @@
     } else {
       players[0].play_movie(function (uid) {
         last = players.shift();
-        last._lib.remove();
-        last._dom.remove();
+        last._lib.remove(function () {
+          // $("#" + last._uid).remove();
+        });
 
         console.log("[game] Played#" + uid + " finish");
         self.play_queue(callback, players);
       });
     }
-  }
-
-  PlayerManager.prototype._create_player = function () {
-    var uid = this._last_player_id++;
-    var settings = trailer.List[uid];
-    settings.id = uid;
-    return new trailer.Player(settings);
   };
 
   // public API
