@@ -9,26 +9,34 @@
   }
 
   function get_rand_progress(from, to) {
-    return (Math.random() * (to - from) + from).toFixed(0);
+    return parseInt((Math.random() * (to - from) + from).toFixed(0), 10);
+  }
+
+  function percent_to_seconds(percent, total_seconds) {
+    return parseInt((percent / 100 * total_seconds).toFixed(0), 10);
   }
 
   function Player(config) {
-    console.log("[game] Player#" + config.id + "");
+    // console.log("[game] Player#" + config.id + "");
     // ustawienia playera
     this._config = config;
     // ID playera, inkrementowane od 0
     this._uid = config.id;
     // init library player
     this._lib = null;
-    // czas ustawiany losowo
+    // sekunda od ktorej zaczynamy buforowac film
     this._start_time = null;
+    // sekunds do ktorej mozna odtworzyc film zbuforowany
+    this._end_time = null;
+    // czy jest gotowy do odtworzenia
+    // - czy sie zbuforowalo ileś tam procent to przestawiamy flage
+    // - albo po timeoutcie przestawiamy flage
+    this._is_ready = false;
 
     // run flow
     this._init();
     // install events
     this._events();
-    // go go go
-    this.play();
   }
 
   Player.MAX_MOVIE_PLAY = 30;
@@ -51,7 +59,9 @@
   };
 
   Player.prototype._events = function () {
-    var self = this;
+    var self = this,
+      started = false;
+
     // console.log("[game] Player#"  + this._uid + " _events");
 
     this._lib.onBeforePlay(function () {
@@ -59,7 +69,7 @@
 
       // seekujemy do losowej wartosci
       var rand_percent = get_rand_progress(5, 25);
-      var rand_second = get_percent(self._config.duration, rand_percent);
+      var rand_second = 10 // get_percent(self._config.duration, rand_percent);
       self._lib.seek(rand_second);
       console.log("[game] seekujemy do " + rand_percent + "% dla tego filmu bedzie to " + rand_second + "s");
 
@@ -67,10 +77,30 @@
     });
 
     this._lib.onTime(function () {
-      var current_time = (self._lib.getPosition()).toFixed(0);
+      var current_time = parseInt((self._lib.getPosition()).toFixed(0), 10);
+//      console.log("current_time", current_time);
+
+      // zatrzymanie aby zbuforować od konkretnej minuty
+      if (!started && current_time != 0) {
+        self._lib.pause();
+      }
+      started = true;
+
+      // zatrzymanie po obejrzeniu 30 sekund
       if (self._start_time + Player.MAX_MOVIE_PLAY <= current_time) {
         // zatrzymaj material po Player.MAX_MOVIE_PLAY sekundach
         self._lib.stop();
+      }
+    });
+
+    this._lib.onBufferChange(function (buffer) {
+//      var buffer = self._lib.getBuffer();
+//      console.log("buffer#" + self._uid, buffer);
+      self._end_time = percent_to_seconds(buffer.bufferPercent, self._config.duration);
+      // console.log("end#" + self._uid, self._end_time);
+
+      if (self._start_time + Player.MAX_MOVIE_PLAY <= self._end_time) {
+        self._is_ready = true;
       }
     });
   };
@@ -91,8 +121,8 @@
 
     jwplayer(name).setup({
       "file": this._config.url,
-      "width": '480',
-      "height": '270'
+      "width": '350',
+      "height": '200'
     });
 
     this._lib = jwplayer(this._uid)
@@ -100,10 +130,19 @@
   };
 
   Player.prototype.play = function () {
-    console.log("[game] Player#" + this._uid + " play");
+    // console.log("[game] Player#" + this._uid + " play");
 
     // uruchamiamy player
     this._lib.play(true);
+
+    this.loading_timeout();
+  };
+
+  Player.prototype.loading_timeout = function () {
+    var self = this;
+    setTimeout(function () {
+      self._is_ready = true;
+    }, 5000);
   };
 
   // master scope
