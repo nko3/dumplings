@@ -7,5 +7,6 @@
 //= require list.js
 //= require player-manager.js
 //= require process-indicator.js
-//= require videos-manager.js
+//= require video-manager.js
+//= require screen-manager.js
 

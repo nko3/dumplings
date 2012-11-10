@@ -4,7 +4,8 @@
   // master scope
   var global = this;
 
-  global.videos_manager = {
+  // public API
+  global.video_manager = {
     show_videos: function () {
       $(".videos").animate({ "left": 0 });
     },
@@ -14,7 +15,7 @@
     },
 
     show_thanks: function () {
-      $(".thank-you").fadeIn();
+      $(".thanks").fadeIn();
     }
   };
 }).call(this);

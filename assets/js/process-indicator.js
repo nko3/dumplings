@@ -25,6 +25,7 @@
     }
   }
 
+  // public API
   global.process_indicator = {
     hide_play_bar: function () {
       $(".play-bar").fadeOut();

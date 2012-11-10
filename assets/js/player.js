@@ -166,7 +166,7 @@
     }, 300);
   };
 
-  // master scope
+  // public API
   global.trailer.Player = Player;
 
 }).call(this);

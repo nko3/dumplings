@@ -5,6 +5,7 @@
   var global = this;
 
   // lista wszystkich trailerow
+  // public API
   global.trailer.List = [{
     "name": "Movie #1",
     "duration": 3*60,
