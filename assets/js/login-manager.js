@@ -1,6 +1,8 @@
 $(function () {
-  var submit = $(".login-form .submit");
-  var name = $(".name");
+  var submit = $(".login-form .submit"),
+    name = $(".name"),
+
+    HALT_LOGIN_FORM = false;
 
   // keypress - > active submit
   name.keyup(function () {
@@ -14,8 +16,13 @@ $(function () {
   });
 
   $(".login-form form").submit(function (evt) {
-    if (!submit.hasClass("disabled")) {
+    console.log("[game] logining...");
+
+    if (HALT_LOGIN_FORM) {
       alert("Wypierdalaj " + name.val() + "!");
+    } else {
+      console.log("COMMAND: player-create: " + name.val());
+      socket.emit('player-create', name.val());
     }
 
     evt.preventDefault();

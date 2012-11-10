@@ -6,16 +6,16 @@
 
   global.game_manager = {
     init: function () {
-      screen_manager.show_screen("screen-hello");
+      // screen_manager.show_screen("screen-hello"); // zalatwione przez css
     },
     game: function () {
       screen_manager.show_screen("screen-game");
 
-      var player_manager = new trailer.PlayerManager();
+      var player_manager = new trailer.MovieManager();
 
       // stworz playery
-      player_manager.create_players(5);
-      player_manager.load_all_players_buffer(function () {
+      player_manager.create_movies(5);
+      player_manager.load_all_movies_buffer(function () {
         console.log("✓ All movies loaded");
 
         video_manager.show_videos();
@@ -29,7 +29,7 @@
           video_manager.show_thanks();
           process_indicator.hide_play_bar();
 
-        }, player_manager._players);
+        }, player_manager._movies);
       });
     }
   };
