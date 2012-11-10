@@ -1,47 +1,20 @@
 extends layout
 
 block content
-  div.page
-    div.page-header
+  section.page
+    header.page-header
       h1 Welcome to TrailerPOP!
 
-    div.page-body.well
-      div.play-bar
-        div.pagination
-          ul
-            li
-              span Proces gry:
-            li
-              a.current-page
-            li
-              span z
-            li
-              a.total-page
+    section.page-body.well
+      include screen/1_hello
+      include screen/2_send_link
+      include screen/3_versus
+      include screen/4_game
+      include screen/5_thanks
+      include screen/6_results
+      include screen/7_highscore
 
-      div.videos-wrapper
-        div.progress.progress-striped.active
-          div.bar(style="width: 5%")
-        div.videos
-
-      div.answers-wrapper
-        div.answers.alert.alert-block
-          ul
-            li
-              a.btn.btn-success.btn-large Odpowiedź 1
-            li
-              a.btn.btn-warning.btn-large Odpowiedź 2
-            li
-              a.btn.btn-danger.btn-large Odpowiedź 3
-            li
-              a.btn.btn-inverse.btn-large Odpowiedź 4
-          div.clearfix
-        div.clearfix
-
-      div.thank-you
-        div.alert.alert-success
-          p Thank U Bro!
-
-    div.page-footer
+    footer.page-footer
       p Copyright &copy; 2012
       ul.pull-right
         li
