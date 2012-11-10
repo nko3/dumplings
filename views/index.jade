@@ -3,3 +3,11 @@ extends layout
 block content
   div.page-header
     h1 Welcome to TrailerPOP!
+
+  div(id='my-video')
+  script
+    jwplayer('my-video').setup({
+        file: 'Location of my video file',
+        width: '480',
+        height: '270'
+    });
