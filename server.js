@@ -46,9 +46,13 @@ function randMovies(cb) {
     coll.forEach(function(movie) {
       if (selected_num >= num) {
         var trig = false;
-        _.each(selected, function(value,key) {
-          if (_.keys(value).length <= 3 & !trig) {
-            selected.push({
+        _.each(selected, function (value, key) {
+          console.log(value, key);
+          if (!("answers" in selected[key])) {
+            selected[key].answers = [];
+          }
+          if (selected[key].answers.length <= 3 & !trig) {
+            selected[key].answers.push({
               id: movie.id,
               url: "http://www.youtube.com/watch?v=" + key,
               title: movie.yt.title

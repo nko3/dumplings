@@ -6,11 +6,11 @@
 
   function Movie(config) {
     // console.log("[game] Movie#" + config.id + "");
-    // ustawienia playera
+    // ustawienia materialu filmoweg
     this._config = config;
-    // ID playera, inkrementowane od 0
+    // ID filmu, inkrementowane od 0
     this._uid = config.id;
-    // init library player
+    // init library jwplayer
     this._lib = null;
     // reprezentacja DOM
     this._dom = null;
@@ -34,7 +34,7 @@
   Movie.MAX_MOVIE_PLAY = 10;
 
   Movie.prototype._create_dom = function () {
-    var name = 'player_' + this._uid;
+    var name = 'movie_' + this._uid;
 
     var container = $("<div />").attr({
       "id": name
@@ -44,8 +44,8 @@
     this._dom = container;
   };
 
-  Movie.prototype._create_player = function () {
-    var name = 'player_' + this._uid;
+  Movie.prototype._create_jwplayer_install = function () {
+    var name = 'movie_' + this._uid;
 
     jwplayer(name).setup({
       "file": this._config.url,
@@ -60,7 +60,7 @@
     // tworzymy DOM do nowego gracza
     this._create_dom();
     // tworzym instacje player JWPLAYER
-    this._create_player();
+    this._create_jwplayer_install();
 
     // wylaczamy kontrolki
     this._lib.setControls(true);
@@ -129,7 +129,7 @@
   };
 
   Movie.prototype.load_buffer = function () {
-    // uruchamiamy player
+    // uruchamiamy movie
     this._lib.play(true);
 
     // uruchamiamy timeout, aby maksymalnie po 15 sekundach przerwac oczekiwanie
@@ -164,6 +164,27 @@
         callback(self._uid);
       }
     }, 300);
+  };
+
+  Movie.prototype._create_dom_answer = function (answer_obj) {
+    var item = $("<li />");
+    item.append($("<a />").html(answer_obj.title).addClass("btn btn-large"));
+    return item;
+  };
+
+  Movie.prototype.show_answers = function () {
+    console.log("[game] Movie#" + this._uid + " show_answers");
+
+    var self = this,
+      answers = this._config.answers,
+      list = $("<ul />");
+
+    for (var i = 0; i < answers.length; ++i) {
+      list.append(self._create_dom_answer(answers[i]))
+    }
+
+    $(".answers").append(list);
+    $(".answers").append($("<div />").addClass("clearfix"));
   };
 
   // public API

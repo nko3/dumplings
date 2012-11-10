@@ -84,7 +84,7 @@
 
               video_manager.hide_videos();
 
-              screen_manager.show_screen("thanks");
+              screen_manager.show_screen("screen-thanks");
               process_indicator.hide_play_bar();
 
             }, player_manager._movies);

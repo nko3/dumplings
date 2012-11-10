@@ -7,7 +7,6 @@
 //= require list.js
 //= require movie.js
 //= require movie-manager.js
-//= require player.js
 //= require process-indicator.js
 //= require video-manager.js
 //= require screen-manager.js

@@ -15,13 +15,13 @@
     var i = 0;
 
     for (; i < number; ++i) {
-      this._movies.push(this._create_player());
+      this._movies.push(this._create_movie());
     }
 
     process_indicator.update_total_page_number(number);
   };
 
-  MovieManager.prototype._create_player = function () {
+  MovieManager.prototype._create_movie = function () {
     var uid = this._last_movie_id++;
     var settings = trailer.List[uid];
     settings.id = uid;
@@ -68,27 +68,29 @@
     return ready_movies;
   };
 
-  MovieManager.prototype.play_queue = function (callback, players) {
+  MovieManager.prototype.play_queue = function (callback, movies) {
 //    console.log("[game] MovieManager play_queue");
 
     var self = this,
         last = null;
 
-    players = players.slice();
+    movies = movies.slice();
 
     // jesli tablica jest pusta wywolaj callback
-    if (players.length === 0) {
+    if (movies.length === 0) {
       callback();
     } else {
-      players[0].play_movie(function (uid) {
-        last = players.shift();
+      movies[0].play_movie(function (uid) {
+        last = movies.shift();
         last._lib.remove(function () {
           // $("#" + last._uid).remove();
         });
 
         console.log("[game] Played#" + uid + " finish");
-        self.play_queue(callback, players);
+        self.play_queue(callback, movies);
       });
+
+      movies[0].show_answers();
     }
   };
 
