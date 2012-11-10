@@ -6,7 +6,7 @@
 
   global.game_manager = {
     init: function () {
-      screen_manager.show_screen("screen-hello");
+      // screen_manager.show_screen("screen-hello"); // zalatwione przez css
     },
     game: function () {
       screen_manager.show_screen("screen-game");
