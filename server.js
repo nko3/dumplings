@@ -9,6 +9,7 @@ var express = require('express')
   , http = require('http')
   , io = require('socket.io')
   , db = require('./db')
+  , _ = require('underscore')
   , path = require('path');
 
 var app = express();
@@ -35,6 +36,37 @@ var io = io.listen(server);
 
 
 var socGames = {}, playersSoc = {}, socPlayers = {};
+
+
+
+function randMovies(cb) {
+
+  var num = 5;
+
+  db.Movie.find({}).limit(num*4).skip(parseInt(Math.random()*1000)).exec(function(err,coll) {
+    var selected = {}, selected_num = 0;
+
+    coll.forEach(function(movie) {
+      if (selected_num >= num) {
+        var trig = false;
+        _.each(selected, function(value,key) {
+          if (_.keys(value).length <= 3 & !trig) {
+            selected[key].push({ id: movie.id, title: movie.yt.title });
+            trig = true;
+          }
+        });
+      } else {
+        selected[movie.yt.id] = []
+        selected[movie.yt.id].push({ id: movie.id, title: movie.yt.title });
+        selected_num += 1;
+      }
+    });
+
+    cb(selected);
+  });
+}
+
+randMovies(function(movies) { console.log(movies); });
 
 
 io.on('connection', function(socket) {
@@ -79,11 +111,17 @@ io.on('connection', function(socket) {
             if (!playersSoc[player]) {
               socket.emit('error',"NOT EVERY PLAYER ONLINE");
               isOk = false;
+            } else {
+              playersSoc[player].emit('error','PLAYER '+player+' is connecting...');
             }
           });
 
           if (isOk) {
-            socket.emit('game-join',{ players: game.players });
+            game.players.push(player);
+            game.save(function(err) {
+              socket.emit('game-join',{ players: game.players });
+
+            });
           } else {
             socket.emit('error',"GAME IS FUCKED UP");
           }
