@@ -1,11 +1,9 @@
-var mongoose = require('mongoose')
+var mongoose = require('mongoose'), Mixed = mongoose.Schema.Types.Mixed;
 
 var db = mongoose.createConnection('mongodb://nodejitsu_nko3-dumplings:b3s2jallg1jj57n3pl3qirtirn@ds039267.mongolab.com:39267/nodejitsu_nko3-dumplings_nodejitsudb25521072');
 
 var movieSchema = mongoose.Schema({
-  name: String,
-  yt: String,
-  time: Number,
+  yt: Mixed,
   created : { type: Date, default: Date.now }
 });
 
