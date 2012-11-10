@@ -1,6 +1,6 @@
 {
   "name": "nko3-dumplings",
-  "version": "0.0.0-9",
+  "version": "0.0.0-10",
   "description": "Dumplings",
   "main": "server.js",
   "scripts": {
@@ -17,7 +17,8 @@
     "connect-assets": "*",
     "socket.io": "*",
     "mongoose": "*",
-    "common-node": "*"
+    "common-node": "*",
+    "underscore": "*"
   },
   "engines": {
     "node": "0.8.x"

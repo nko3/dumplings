@@ -9,6 +9,7 @@ var express = require('express')
   , http = require('http')
   , io = require('socket.io')
   , db = require('./db')
+  , _ = require('underscore')
   , path = require('path');
 
 var app = express();
@@ -35,6 +36,39 @@ var io = io.listen(server);
 
 
 var socGames = {}, playersSoc = {}, socPlayers = {};
+
+
+
+function randMovies(cb) {
+
+  var num = 5;
+
+  db.Movie.find({}).limit(num*4).skip(parseInt(Math.random()*1000)).exec(function(err,coll) {
+    var selected = {}, selected_num = 0;
+
+    coll.forEach(function(movie) {
+      if (selected_num >= num) {
+        _.each(selected, function(value,key) {
+          if (_.keys(value).length <= 3) {
+            var ha = {};
+            ha[movie.id] = movie.yt.title;
+            _.extend(selected[key],ha);
+          }
+        });
+      } else {
+        selected[movie.yt.id] = {}
+        var ha = {};
+        ha[movie.id] = movie.yt.title;
+        _.extend(selected[movie.yt.id],ha);
+        selected_num += 1;
+      }
+    });
+
+    console.log(selected);
+  });
+}
+
+randMovies();
 
 
 io.on('connection', function(socket) {
@@ -88,6 +122,7 @@ io.on('connection', function(socket) {
             game.players.push(player);
             game.save(function(err) {
               socket.emit('game-join',{ players: game.players });
+
             });
           } else {
             socket.emit('error',"GAME IS FUCKED UP");
