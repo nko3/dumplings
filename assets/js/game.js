@@ -21,19 +21,21 @@
     // socket.emit('player-create', 'CHOSEN_NAME');
 
     socket.on('player-create', function (data) {
-
-      // TODO: Save player id to cookie
-
       console.log('[player] created');
       console.log(data); // data.id
 
       pklib.cookie.create("user_id", data.id);
+
+      socket.emit('game-create');
+      console.log("COMMAND: game-create");
     });
 
     // socket.emit('game-create')
 
     socket.on('game-create', function (id) {
       console.log('[game] created id:' + id);
+
+      document.location.hash = "#/game/" + id;
     });
 
     // socket.emit('game-join',id)

@@ -21,8 +21,8 @@ $(function () {
     if (HALT_LOGIN_FORM) {
       alert("Wypierdalaj " + name.val() + "!");
     } else {
+      socket.emit("player-create", name.val());
       console.log("COMMAND: player-create: " + name.val());
-      socket.emit('player-create', name.val());
     }
 
     evt.preventDefault();
