@@ -135,7 +135,7 @@ io.on('connection', function(socket) {
 
           if (isOk) {
             game.players.forEach(function(player) {
-              getPS(player).emit('game-play',{
+              getPS(player).emit('game-played',{
                 movies: game.movies
               });
             });
@@ -189,7 +189,7 @@ io.on('connection', function(socket) {
 
       game.players.forEach(function(player) {
         console.log('player',player,goodAnswer);
-        getPS(player).emit('game-answer',game_id,movie_id,answer_id,time,getSP(socket.id),goodAnswer);
+        getPS(player).emit('game-answered',game_id,movie_id,answer_id,time,getSP(socket.id),goodAnswer);
       });
 
       game.answers.push({
@@ -233,15 +233,23 @@ io.on('connection', function(socket) {
       var won_by_correct = _.invert(answer_correct)[_.max(answer_correct)];
       var won_by_time = _.invert(answer_correct)[_.min(answer_time)];
 
-      if (_.max(answer_correct) == 5) {
-        // won_by_correct
-      } else {
+
+      // p1 - 1/5, 1/20, 1 = 1.25
+      // p2 - 1/20, 1/20, 1 = 1.1
+      // p1 - 1, 1, 1
+      // p2 - 1, 1, 1/25
+      // p1 - 1/50, 1/50, 1/50
+      // p2 - 1/5,1,1/5
+
+
+
+      if (won_by_time == won_by_correct) {
+        game.players.forEach(function(player) {
+          
+        });
       }
 
 
-      game.players.forEach(function(player) {
-        answer_correct
-      });
 
     });
 
@@ -265,14 +273,25 @@ io.on('connection', function(socket) {
               socket.emit('error',"NOT EVERY PLAYER ONLINE");
               isOk = false;
             } else {
-              getPS(player).emit('error','PLAYER '+player+' is connecting...');
+              //getPS(player).emit('error','PLAYER '+player+' is connecting...');
             }
           });
 
           if (isOk) {
             game.players.push(getSP(socket.id));
             game.save(function(err) {
-              socket.emit('game-join',{ players: game.players });
+              game.players.forEach(function(player){
+                if (getPS(player)) {
+                  getPS(player).emit('game-ready',{ players: game.players });
+
+                  setTimeout(function() {
+                    getPS(player).emit('game-start',{
+                      movies: game.movies
+                    });
+                  },5000);
+
+                }
+              });
             });
           } else {
             socket.emit('error',"GAME IS FUCKED UP");
