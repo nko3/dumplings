@@ -33,6 +33,23 @@ app.configure('development', function(){
 var server = http.createServer(app).listen(app.get('port'))
 var io = io.listen(server);
 
+
+io.on('connection', function(socket) {
+  socket.on('game-request',function(id) {
+  });
+
+  socket.on('user-save', function(name,cb) {
+    var user = new db.User({ name: name });
+    user.save(function(error) {
+      if (!error) {
+        cb(user._id)
+      }
+    })
+  });
+
+});
+
+
 app.get('/', function(req, res){
 
   if (app.get('env') == 'production') {

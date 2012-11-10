@@ -16,7 +16,8 @@
     "jade": "*",
     "connect-assets": "*",
     "socket.io": "*",
-    "mongoose": "*"
+    "mongoose": "*",
+    "common-node": "*"
   },
   "engines": {
     "node": "0.8.x"
