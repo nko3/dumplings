@@ -8,6 +8,7 @@ var express = require('express')
   , user = require('./routes/user')
   , http = require('http')
   , io = require('socket.io')
+  , db = require('./db')
   , path = require('path');
 
 var app = express();
