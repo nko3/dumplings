@@ -49,21 +49,30 @@
 
       if (user_id !== null) {
         login_manager.login(user_id);
+
         if (exists_game_id()) {
           login_manager.game_join();
-          game_manager.init_versus();
         } else {
-          game_manager.init_send_link_screen(user_id);
+          login_manager.game_create();
+          game_manager.init_send_link_screen(get_hash_params("game"));
         }
       }
     },
 
     login: function (id) {
       socket.emit('player-login', id);
+      console.log("COMMAND player-login", id);
+    },
+
+    game_create: function () {
+      socket.emit('game-create');
+      console.log("COMMAND: game-create");
     },
 
     game_join: function () {
-      socket.emit("game-join", get_hash_params("game"));
+      var game_id = get_hash_params("game");
+      socket.emit("game-join", game_id);
+      console.log("COMMAND game-join", game_id);
     }
   };
 

@@ -6,8 +6,6 @@
 
   global.game_manager = {
     init_send_link_screen: function (id) {
-      screen_manager.show_screen("screen-send-link");
-
       var protocol = document.location.protocol;
       var host = document.location.host;
       var pathname = document.location.pathname;
@@ -19,6 +17,8 @@
       // document.location.hash = game_url;
 
       sent_link.init();
+
+      screen_manager.show_screen("screen-send-link");
     },
 
     init_versus: function () {

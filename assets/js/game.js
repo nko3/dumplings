@@ -25,8 +25,8 @@
 
       pklib.cookie.create("user_id", data.id);
 
-      socket.emit('game-create');
-      console.log("COMMAND: game-create");
+      // spradzamy czy user wchodzi z linku
+      login_manager.check();
     });
 
     // socket.emit('game-create')
@@ -34,7 +34,6 @@
     socket.on('game-create', function (id) {
       console.log('[game] ✓ game created id', id);
 
-      login_manager.login(id);
       game_manager.init_send_link_screen(id);
     });
 
@@ -46,8 +45,13 @@
 
     // socket.emit('game-start',id)
 
-    socket.on('game-play', function (game) {
-      console.log('[game] ✓ game start', game);
+    socket.on('game-ready', function (game) {
+      console.log('[game] ✓ game ready', game);
+      game_manager.init_versus();
+    });
+
+    socket.on('game-start', function (players) {
+      console.log('[game] ✓ game start', players);
     });
 
     // socket.emit('game-answer', game_id, movie_id, answer_id, time);
