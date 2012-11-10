@@ -69,9 +69,9 @@
 
       // seekujemy do losowej wartosci
       var rand_percent = get_rand_progress(5, 25);
-      var rand_second = 10 // get_percent(self._config.duration, rand_percent);
+      var rand_second = get_percent(self._config.duration, rand_percent);
       self._lib.seek(rand_second);
-      console.log("[game] seekujemy do " + rand_percent + "% dla tego filmu bedzie to " + rand_second + "s");
+      // console.log("[game] seekujemy do " + rand_percent + "% dla tego filmu bedzie to " + rand_second + "s");
 
       self._start_time = rand_second;
     });
@@ -142,7 +142,7 @@
     var self = this;
     setTimeout(function () {
       self._is_ready = true;
-    }, 5000);
+    }, 15000);
   };
 
   // master scope
