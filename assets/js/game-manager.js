@@ -6,6 +6,9 @@
 
   global.game_manager = {
     init: function () {
+      screen_manager.show_screen("screen-hello");
+    },
+    game: function () {
       screen_manager.show_screen("screen-game");
 
       var player_manager = new trailer.PlayerManager();
@@ -30,4 +33,9 @@
       });
     }
   };
+
+  $(function () {
+    // run game!
+    global.game_manager.init();
+  });
 }).call(this);
