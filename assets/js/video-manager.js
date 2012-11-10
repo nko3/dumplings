@@ -12,10 +12,6 @@
 
     hide_videos: function () {
       $(".answers-wrapper, .videos-wrapper").hide();
-    },
-
-    show_thanks: function () {
-      $(".thanks").fadeIn();
     }
   };
 }).call(this);

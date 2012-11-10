@@ -49,16 +49,22 @@
     _game_flow: function () {
       if (game_link_exists()) {
         // TAK
-        socket.on('game-ready', function (game) {
-          console.log('[game] ✓ game-ready', game);
+        socket.on('game-ready', function (players) {
+          console.log('[game] ✓ game-ready', players);
 
           // pokazuje VERSUS
           screen_manager.show_screen("screen-versus");
           versus.init();
         });
 
-        socket.on('game-start', function (players) {
-          console.log('[game] ✓ game-start', players);
+        socket.on('game-start', function (data) {
+          console.log('[game] ✓ game-start', data);
+
+          trailer.List = data.movies;
+
+          for (var i = 0; i < trailer.List.length; ++i) {
+            trailer.List[i].duration = 3 * 60;
+          }
 
           screen_manager.show_screen("screen-game");
 
@@ -77,7 +83,8 @@
               console.log("✓ All movies played!");
 
               video_manager.hide_videos();
-              video_manager.show_thanks();
+
+              screen_manager.show_screen("thanks");
               process_indicator.hide_play_bar();
 
             }, player_manager._movies);

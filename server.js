@@ -37,39 +37,40 @@ var io = io.listen(server);
 
 var socGames = {}, playersSoc = {}, socPlayers = {}, players = {};
 
-
-
 function randMovies(cb) {
-
   var num = 5;
 
-  db.Movie.find({}).limit(num*4).skip(parseInt(Math.random()*1000)).exec(function(err,coll) {
-    var selected = {}, selected_num = 0, correct = {};
+  db.Movie.find({}).limit(num * 4).skip(parseInt(Math.random()*500, 10)).exec(function(err,coll) {
+    var selected = [], selected_num = 0, correct = {};
 
     coll.forEach(function(movie) {
       if (selected_num >= num) {
         var trig = false;
         _.each(selected, function(value,key) {
           if (_.keys(value).length <= 3 & !trig) {
-            selected[key].push({ id: movie.id, title: movie.yt.title });
+            selected.push({
+              id: movie.id,
+              url: "http://www.youtube.com/watch?v=" + key,
+              title: movie.yt.title
+            });
             trig = true;
           }
         });
       } else {
-        selected[movie.yt.id] = [];
-        selected[movie.yt.id].push({ id: movie.id, title: movie.yt.title });
+        selected.push({
+          id: movie.id,
+          url: "http://www.youtube.com/watch?v=" + movie.yt.id,
+          title: movie.yt.title
+        });
         selected_num += 1;
 
         correct[movie.yt.id] = movie.id;
       }
     });
 
-    cb(selected,correct);
+    cb(selected, correct);
   });
 }
-
-
-
 
 var GameManager;
 
