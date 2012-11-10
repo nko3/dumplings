@@ -11,5 +11,5 @@ exports.index = function(req, res){
     socket = 'http://localhost:3000/';
   }
 
-  res.render('index', { title: 'Express', config: { socket: socket } });
+  res.render('index', { title: 'TrailerPOP', config: { socket: socket } });
 };

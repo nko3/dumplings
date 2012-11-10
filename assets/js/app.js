@@ -2,4 +2,5 @@
 //= require lib/bootstrap.js
 //= require lib/socket.io.js
 //= require game.js
+//= require player.js
 
