@@ -24,7 +24,7 @@
       $(".login-form form").submit(function (evt) {
         console.log("[game] logining...");
 
-        if (Config.evn === "production") {
+        if (Config.env === "production") {
           alert("Wypierdalaj " + name.val() + "!");
         } else {
           socket.emit("player-create", name.val());

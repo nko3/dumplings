@@ -15,8 +15,11 @@
       var protocol = document.location.protocol;
       var host = document.location.host;
       var pathname = document.location.pathname;
+      var game_url = "/game/" + id;
 
-      $(".send-link").val(protocol + "//" + host + pathname + "#/game/" + id);
+      $(".send-link").val(protocol + "//" + host + pathname + "#" + game_url);
+
+      document.location.hash = game_url;
 
       sent_link.init();
     },
