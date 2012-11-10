@@ -79,11 +79,16 @@ io.on('connection', function(socket) {
             if (!playersSoc[player]) {
               socket.emit('error',"NOT EVERY PLAYER ONLINE");
               isOk = false;
+            } else {
+              playersSoc[player].emit('error','PLAYER '+player+' is connecting...');
             }
           });
 
           if (isOk) {
-            socket.emit('game-join',{ players: game.players });
+            game.players.push(player);
+            game.save(function(err) {
+              socket.emit('game-join',{ players: game.players });
+            }
           } else {
             socket.emit('error',"GAME IS FUCKED UP");
           }
