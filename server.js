@@ -236,7 +236,6 @@ io.on('connection', function(socket) {
       if (_.max(answer_correct) == 5) {
         // won_by_correct
       } else {
-        
       }
 
 
@@ -322,6 +321,6 @@ app.get('/', function(req, res){
     socket = 'http://localhost:3000/';
   }
 
-  res.render('index', { title: 'Express', config: { socket: socket } });
+  res.render('index', { title: 'Express', config: { socket: socket, env: app.get('env') } });
 });
 
