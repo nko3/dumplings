@@ -17,7 +17,31 @@
     }
   };
 
-  PlayerManager.prototype.run_players_in_queue = function () {
+  PlayerManager.prototype.run_players_in_queue = function (callback) {
+    var self = this,
+      i = 0,
+      ready_interval,
+      number_of_ready_players = 0,
+      max_ready_players = this._players.length;
+
+    for (; i < this._players.length; ++i) {
+      (function (i) {
+        self._players[i].play();
+
+        ready_interval = setInterval(function () {
+          // jeśli player jest gotowy, to zwiekszamy licznik dostpnym playerow
+          if (self._players[i]._is_ready) {
+            number_of_ready_players++;
+          }
+
+          // jesli wszystkie playery sa dostepne to uruchamiamy callback
+          if (number_of_ready_players === max_ready_players) {
+            clearInterval(ready_interval);
+            callback();
+          }
+        }, 300);
+      })(i);
+    }
 
   };
 
