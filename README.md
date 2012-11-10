@@ -1,5 +1,7 @@
 # Hello Dumplings!
 
+Rise and shine!
+
 ## Deploy instructions
 
 ### GitHub — [Team][2], [Repo][3]
