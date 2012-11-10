@@ -26,6 +26,7 @@
 
         videos_manager.hide_videos();
         videos_manager.show_thanks();
+        process_indicator.hide_play_bar();
 
       }, player_manager._players);
 

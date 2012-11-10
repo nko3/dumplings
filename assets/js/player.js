@@ -79,7 +79,7 @@
       }
 
       // seekujemy do losowej wartosci
-      var rand_percent = get_rand_value_between(5, 25);
+      var rand_percent = get_rand_value_between(5, 20);
       var rand_second = get_value_of_percent(self._config.duration, rand_percent);
       self._lib.seek(rand_second);
       console.log("[game] seek #" + self._uid + " do " + rand_percent + "% dla tego filmu bedzie to " + rand_second + "s");
@@ -100,6 +100,7 @@
       if (!started && current_time !== 0) {
         self._lib.pause();
       }
+
       started = true;
     });
 
@@ -111,12 +112,12 @@
         self._lib.stop();
       }
 
-      if (self._is_ready) {
-        return false;
-      }
-
       if (!self._is_ready) {
         self._end_time = get_percent_value_of(buffer.bufferPercent, self._config.duration);
+      }
+
+      if (self._is_ready) {
+        return false;
       }
 
       if (self._start_time + Player.MAX_MOVIE_PLAY <= self._end_time) {
@@ -132,7 +133,17 @@
     this._lib.play(true);
 
     // uruchamiamy timeout, aby maksymalnie po 15 sekundach przerwac oczekiwanie
-    this.loading_timeout();
+    this.load_buffer_timeout();
+  };
+
+  Player.prototype.load_buffer_timeout = function () {
+    var self = this;
+    setTimeout(function () {
+      if (!self._is_ready) {
+        console.log("load buffer timeout #" + self._uid);
+        self._is_ready = true;
+      }
+    }, 20 * 1000);
   };
 
   Player.prototype.play_movie = function (callback) {
@@ -153,13 +164,6 @@
         callback(self._uid);
       }
     }, 300);
-  };
-
-  Player.prototype.loading_timeout = function () {
-    var self = this;
-    setTimeout(function () {
-      self._is_ready = true;
-    }, 15000);
   };
 
   // master scope

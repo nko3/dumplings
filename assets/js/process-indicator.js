@@ -26,6 +26,10 @@
   }
 
   global.process_indicator = {
+    hide_play_bar: function () {
+      $(".play-bar").fadeOut();
+    },
+
     show_play_bar: function () {
       $(".play-bar").fadeIn();
     },
@@ -43,6 +47,7 @@
     },
 
     grow_loading_percent_value: function (val, max) {
+      // console.log("grow_loading_percent_value", val, max);
       update_progress(get_percent_value_of(val, max));
     },
 

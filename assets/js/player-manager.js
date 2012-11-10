@@ -32,36 +32,40 @@
     console.log("[game] PlayerManager load_all_players_buffer");
 
     var self = this,
+      ready_players = 0,
+      ready_interval,
       i = 0,
-      number_of_ready_players = 0,
-      max_ready_players = this._players.length,
-      run_callback = false;
+      max_ready_players = this._players.length;
 
     for (; i < max_ready_players; ++i) {
-      (function (i) {
-        var ready_interval;
-
-        self._players[i].load_buffer();
-
-        ready_interval = setInterval(function () {
-          // jeśli player jest gotowy, to zwiększamy licznik dostępnych playerów
-          if (self._players[i]._is_ready) {
-            number_of_ready_players++;
-
-            // pasek postepu
-            process_indicator.grow_loading_percent_value(number_of_ready_players, self._players.length);
-          }
-
-          // jesli wszystkie playery sa dostepne to uruchamiamy callback
-          if (number_of_ready_players >= max_ready_players && !run_callback) {
-            clearInterval(ready_interval);
-            callback();
-
-            run_callback = true;
-          }
-        }, 100);
-      })(i);
+      self._players[i].load_buffer();
     }
+
+    ready_interval = setInterval(function () {
+      // zliczamy gotowe playery
+      ready_players = self._get_number_of_ready_players();
+
+      // aktualizujemy pasek postepu
+      process_indicator.grow_loading_percent_value(ready_players, max_ready_players);
+
+//      console.log("ready_players", ready_players, "max_ready_players", max_ready_players);
+
+      // jeśli wszystkie są ready to uruchamiamy callback
+      if (ready_players === max_ready_players) {
+        clearInterval(ready_interval);
+        callback();
+      }
+    }, 10);
+  };
+
+  PlayerManager.prototype._get_number_of_ready_players = function () {
+    var ready_players = 0;
+    for (var i = 0; i < this._players.length; ++i) {
+      if (this._players[i]._is_ready) {
+        ready_players++;
+      }
+    }
+    return ready_players;
   };
 
   PlayerManager.prototype.play_queue = function (callback, players) {
