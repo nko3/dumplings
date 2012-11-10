@@ -3,7 +3,23 @@ section.screen.screen-hello
     h1 Hi!
     p type your name
 
-  section
+  section.login-form
     form
-      input(type="text")
-      submit(value="OK")
+      input(type="text", name="name").name
+      br
+      input(type="submit", value="OK").submit.btn.btn-primary.btn-large.disabled
+
+
+script
+  $(function () {
+    var submit = $(".login-form .submit");
+    $(".name").keyup(function () {
+      var _T = $(this);
+
+      if (_T.val().length) {
+        submit.removeClass("disabled");
+      } else {
+        submit.addClass("disabled");
+      }
+    });
+  });
