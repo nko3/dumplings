@@ -20,39 +20,41 @@
 
     // socket.emit('player-create', 'CHOSEN_NAME');
 
-    socket.on('player-create', function(data) {
+    socket.on('player-create', function (data) {
 
       // TODO: Save player id to cookie
 
       console.log('[player] created');
       console.log(data); // data.id
+
+      pklib.cookie.create("user_id", data.id);
     });
 
     // socket.emit('game-create')
 
-    socket.on('game-create', function(id) {
-      console.log('[game] created id:'+id);
+    socket.on('game-create', function (id) {
+      console.log('[game] created id:' + id);
     });
 
     // socket.emit('game-join',id)
 
-    socket.on('game-join', function(game) {
-      console.log('[game] joined',game);
+    socket.on('game-join', function (game) {
+      console.log('[game] joined', game);
     });
 
     // socket.emit('game-start',id)
 
-    socket.on('game-play', function(game) {
+    socket.on('game-play', function (game) {
       console.log('[game] start', game);
     });
 
     // socket.emit('game-answer', game_id, movie_id, answer_id, time);
-    socket.on('game-answer', function(game_id,movie_id,answer_id,time,player_id,correct) {
-      console.log('[game] answer',player_id,correct);
+    socket.on('game-answer', function (game_id, movie_id, answer_id, time, player_id, correct) {
+      console.log('[game] answer', player_id, correct);
     });
 
     // common error handler
-    socket.on('error', function(msg) {
+    socket.on('error', function (msg) {
       console.log('[ERROR] ✗', msg);
     });
   });
