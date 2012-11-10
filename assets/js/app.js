@@ -9,4 +9,5 @@
 //= require process-indicator.js
 //= require video-manager.js
 //= require screen-manager.js
+//= require game-manager.js
 
