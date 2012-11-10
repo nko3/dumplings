@@ -24,6 +24,8 @@
     this._uid = config.id;
     // init library player
     this._lib = null;
+    // reprezentacja DOM
+    this._dom = null;
 
     // sekunda od ktorej zaczynamy buforowac film
     this._start_time = 0;
@@ -49,7 +51,9 @@
     var container = $("<div />").attr({
       "id": "player_" + this._uid
     });
-    $("#videos").append(container);
+    $(".videos").append(container);
+
+    this._dom = container;
   };
 
   Player.prototype._create_player = function () {
@@ -59,7 +63,7 @@
 
     jwplayer(name).setup({
       "file": this._config.url,
-      "width": '350',
+      "width": '300',
       "height": '200'
     });
 
@@ -102,6 +106,11 @@
       var rand_second = get_percent(self._config.duration, rand_percent);
       self._lib.seek(rand_second);
       console.log("[game] seek #" + self._uid + " do " + rand_percent + "% dla tego filmu bedzie to " + rand_second + "s");
+
+
+      $(".videos-wrapper .progress .bar").animate({
+        width: "+=5%"
+      });
 
       self._start_time = rand_second;
     });
@@ -165,6 +174,8 @@
 
     var self = this,
       finish_interval;
+
+    this._dom.show();
 
     this._lib.play();
 

@@ -24,7 +24,7 @@
 
     var self = this,
       i = 0,
-      ready_interval = 0,
+      ready_interval,
       number_of_ready_players = 0,
       max_ready_players = this._players.length,
       run_callback = false;
@@ -37,6 +37,14 @@
           // jeśli player jest gotowy, to zwiekszamy licznik dostpnym playerow
           if (self._players[i]._is_ready) {
             number_of_ready_players++;
+
+            var partial_percent = self._players.length;
+            var percent = parseInt((number_of_ready_players / partial_percent * 100).toFixed(0), 10);
+            if (percent <= 100) {
+              $(".videos-wrapper .progress .bar").animate({
+                width: percent + "%"
+              });
+            }
           }
 
           // jesli wszystkie playery sa dostepne to uruchamiamy callback
@@ -54,7 +62,8 @@
   PlayerManager.prototype.play_queue = function (callback, players) {
 //    console.log("[game] PlayerManager play_queue");
 
-    var self = this;
+    var self = this,
+      last = null;
 
     players = players.slice();
 
@@ -63,7 +72,11 @@
       callback();
     } else {
       players[0].play_movie(function (uid) {
-        players.shift();
+        last = players.shift();
+        console.log("last", last._dom);
+        last._lib.remove();
+        last._dom.remove();
+
         console.log("[game] Played#" + uid + " finish");
         self.play_queue(callback, players);
       });
