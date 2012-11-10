@@ -216,14 +216,32 @@ io.on('connection', function(socket) {
     findGame(socket,gameId,function(game) {
 
 
-      var correct = {}
+      var answer_correct = {}, answer_time = {}; 
 
-      game.answers.forEach(function(player) {
-        var ans = game.answers[player];
-        ans.forEach(function(answer) {
-          if (answer.correct) {
-          }
-        });
+      game.players.forEach(function(player) {
+        answer_correct[player] = [];
+        answer_time[player] = [];
+      });
+
+      game.answers.forEach(function(answer) {
+        if (answer.correct) {
+          answer_correct[answer.player_id] += 1;
+          answer_time[answer.player_id] += answer.time;
+        }
+      });
+
+      var won_by_correct = _.invert(answer_correct)[_.max(answer_correct)];
+      var won_by_time = _.invert(answer_correct)[_.min(answer_time)];
+
+      if (_.max(answer_correct) == 5) {
+        // won_by_correct
+      } else {
+        
+      }
+
+
+      game.players.forEach(function(player) {
+        answer_correct
       });
 
     });
