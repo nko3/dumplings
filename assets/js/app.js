@@ -11,8 +11,7 @@
 //= require process-indicator.js
 //= require video-manager.js
 //= require screen-manager.js
-//= require game-manager.js
-//= require login-manager.js
+//= require flow-adapter.js
 //= require sent-link.js
 //= require versus.js
 
