@@ -30,5 +30,9 @@ function get_rand_value_between(from, to) {
 }
 
 function get_percent_value_of(val, max) {
-  return parseInt((val * max/ 100).toFixed(0), 10);
+  return parseInt((val / max * 100).toFixed(0), 10);
+}
+
+function get_value_of_percent(total, percent) {
+  return parseInt((total * percent / 100).toFixed(0), 10);
 }

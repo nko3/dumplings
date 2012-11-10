@@ -37,7 +37,7 @@
       max_ready_players = this._players.length,
       run_callback = false;
 
-    for (; i < this._players.length; ++i) {
+    for (; i < max_ready_players; ++i) {
       (function (i) {
         var ready_interval;
 
@@ -49,11 +49,11 @@
             number_of_ready_players++;
 
             // pasek postepu
-            process_indicator.grow_loading(number_of_ready_players, self._players.length);
+            process_indicator.grow_loading_percent_value(number_of_ready_players, self._players.length);
           }
 
           // jesli wszystkie playery sa dostepne to uruchamiamy callback
-          if (number_of_ready_players === max_ready_players && !run_callback) {
+          if (number_of_ready_players >= max_ready_players && !run_callback) {
             clearInterval(ready_interval);
             callback();
 

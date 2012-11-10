@@ -80,7 +80,7 @@
 
       // seekujemy do losowej wartosci
       var rand_percent = get_rand_value_between(5, 25);
-      var rand_second = get_percent_value_of(self._config.duration, rand_percent);
+      var rand_second = get_value_of_percent(self._config.duration, rand_percent);
       self._lib.seek(rand_second);
       console.log("[game] seek #" + self._uid + " do " + rand_percent + "% dla tego filmu bedzie to " + rand_second + "s");
 
@@ -142,7 +142,6 @@
         finish_interval;
 
     process_indicator.update_current_page_number(this._uid + 1);
-
     this._dom.show();
     this._lib.play();
 
@@ -155,7 +154,6 @@
       }
     }, 300);
   };
-
 
   Player.prototype.loading_timeout = function () {
     var self = this;
