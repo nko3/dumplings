@@ -10,4 +10,5 @@
 //= require video-manager.js
 //= require screen-manager.js
 //= require game-manager.js
+//= require login-manager.js
 

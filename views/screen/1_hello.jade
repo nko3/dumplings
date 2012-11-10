@@ -1,25 +1,12 @@
 section.screen.screen-hello
   header
     h1 Hi!
-    p type your name
 
   section.login-form
     form
-      input(type="text", name="name").name
-      br
-      input(type="submit", value="OK").submit.btn.btn-primary.btn-large.disabled
+      header.control-group.error
+        label(for="login") type your name
+        input(type="text", id="login", name="name").name
 
-
-script
-  $(function () {
-    var submit = $(".login-form .submit");
-    $(".name").keyup(function () {
-      var _T = $(this);
-
-      if (_T.val().length) {
-        submit.removeClass("disabled");
-      } else {
-        submit.addClass("disabled");
-      }
-    });
-  });
+      footer
+        input(type="submit", value="OK").submit.btn.btn-primary.btn-large.disabled
