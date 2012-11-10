@@ -22,7 +22,7 @@ var gameSchema = mongoose.Schema({
   players: Array, 
   movies: Mixed,
   correct: Mixed,
-  answers: Mixed,
+  answers: Array,
   created : { type: Date, default: Date.now }
 });
 

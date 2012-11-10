@@ -192,12 +192,8 @@ io.on('connection', function(socket) {
         getPS(player).emit('game-answer',game_id,movie_id,answer_id,time,getSP(socket.id),goodAnswer);
       });
 
-
-      if (_.isEmpty(game.answers[getSP(socket.id)])) {
-        game.answers[getSP(socket.id)] = [];
-      }
-      
-      game.answers[getSP(socket.id)].push({
+      game.answers.push({
+        player_id: getSP(socket.id),
         movie_id: movie_id,
         answer_id: answer_id,
         time: time,
@@ -217,8 +213,19 @@ io.on('connection', function(socket) {
     // TODO: Check time
     //
     
-    findGame(socket,gameId,function() {
-    
+    findGame(socket,gameId,function(game) {
+
+
+      var correct = {}
+
+      game.answers.forEach(function(player) {
+        var ans = game.answers[player];
+        ans.forEach(function(answer) {
+          if (answer.correct) {
+          }
+        });
+      });
+
     });
 
   }); 
