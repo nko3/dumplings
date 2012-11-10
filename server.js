@@ -88,7 +88,7 @@ io.on('connection', function(socket) {
             game.players.push(player);
             game.save(function(err) {
               socket.emit('game-join',{ players: game.players });
-            }
+            });
           } else {
             socket.emit('error',"GAME IS FUCKED UP");
           }
