@@ -18,4 +18,5 @@
 //= require video-manager.js
 //= require screen-manager.js
 //= require flow-adapter.js
+//= require trailer-roll.js
 

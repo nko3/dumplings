@@ -9,9 +9,18 @@ block content
       img(src="/img/chrome.png", alt="Only for the best").chrome-icon
       span.label.label-warning.chrome-label Only for Chrome
 
-      a.new-game.btn.btn-larger.btn-danger.right
-        i.icon-cog
-        &nbsp;&nbsp;New Game
+      section.right
+        a.js-show-rules.btn.btn-larger.btn-warning
+          i.icon-cog
+          &nbsp;&nbsp;Rules
+
+        a.js-show-highscore.btn.btn-larger.btn-info
+          i.icon-cog
+          &nbsp;&nbsp;Highscore
+
+        a.js-start-new-game.btn.btn-larger.btn-danger
+          i.icon-cog
+          &nbsp;&nbsp;New Game
 
     section.page-body.well
       include screen/1_hello
@@ -20,7 +29,8 @@ block content
       include screen/4_game
       include screen/5_thanks
       include screen/6_results
-      include screen/7_highscore
+      include screen/highscore
+      include screen/rules
 
     footer.page-footer
       p Copyright &copy; 2012
