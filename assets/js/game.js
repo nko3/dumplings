@@ -164,6 +164,7 @@
 
       $(".dashboard .games").text(data.games);
       $(".dashboard .points").text(points.toFixed(3));
+      $(".dashboard").fadeIn();
     });
   });
 }).call(this);
