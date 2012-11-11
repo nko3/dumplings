@@ -150,6 +150,8 @@
   Movie.prototype.play_movie = function (callback) {
     console.log("[game] Movie#" + this._uid + " play");
 
+    trailer.MOVIE_ID = this._config.id;
+
     var self = this,
         finish_interval;
 
@@ -172,6 +174,12 @@
   Movie.prototype._create_dom_answer = function (answer_obj) {
     var item = $("<li />");
     item.append($("<a />").html(answer_obj.title).addClass("btn btn-large"));
+    item.attr("answer_id", answer_obj.id);
+    item.on("click", function (evt) {
+      $(this).addClass("btn-warning");
+      answer_manager.send_answer($(this).attr("answer_id"));
+      evt.preventDefault();
+    });
     return item;
   };
 

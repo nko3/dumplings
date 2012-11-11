@@ -5,7 +5,13 @@
   var global = this;
 
   // global namespace
-  global.trailer = {};
+  var trailer = global.trailer = {};
+
+  // ID gry
+  trailer.GAME_ID = 0
+
+  // ID aktualnego mateiału filmowego
+  trailer.MOVIE_ID = 0;
 
   // let's rock!
   $(function () {
@@ -75,7 +81,9 @@
     });
 
     socket.on('game-create', function (id) {
-      console.log('[game] ✓ game created id', id);
+      console.log('[game] ✓ game-created', id);
+
+      trailer.GAME_ID = id;
 
       screen_manager.show_screen("screen-send-link");
 
@@ -93,7 +101,7 @@
     });
 
     socket.on('player-create', function (data) {
-      console.log('[game] ✓ player created', data.id);
+      console.log('[game] ✓ player-create', data.id);
 
       pklib.cookie.create("user_id", data.id);
 
@@ -103,7 +111,7 @@
 
     // socket.emit('game-answer', game_id, movie_id, answer_id, time);
     socket.on('game-answer', function (game_id, movie_id, answer_id, time, player_id, correct) {
-      console.log('[game] ✓ game answer', player_id, correct);
+      console.log('[game] ✓ game-answer', game_id, movie_id, answer_id, time, player_id, correct);
     });
 
     // common error handler
