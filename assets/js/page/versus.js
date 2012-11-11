@@ -4,12 +4,7 @@
   // master scope
   var global = this;
 
-  function update_process_indicator(percent) {
-    $(".versus-loading-panel .progress .bar").animate({
-      width: "+=" + percent + "%"
-    });
-  }
-
+  // public API
   global.versus = {
     init: function () {
       console.log("[page] versus.init");
@@ -19,10 +14,10 @@
       loading_interval = setInterval(function () {
         if (percent > 100) {
           clearInterval(loading_interval);
-          update_process_indicator(100);
+          versus_process_indicator.grow(100);
         } else {
           percent += 20;
-          update_process_indicator(percent);
+          versus_process_indicator.grow(percent);
         }
       }, 1000);
     },

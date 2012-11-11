@@ -5,7 +5,13 @@
   var global = this;
 
   // global namespace
-  global.trailer = {};
+  var trailer = global.trailer = {};
+
+  // ID gry
+  trailer.GAME_ID = 0
+
+  // ID aktualnego mateiału filmowego
+  trailer.MOVIE_ID = 0;
 
   // let's rock!
   $(function () {
@@ -45,7 +51,7 @@
       // stworz playery
       player_manager.create_movies(5);
 
-      process_indicator.show_progress_bar();
+      game_process_indicator.show_progress_bar();
       video_manager.hide_videos();
 
       player_manager.load_all_movies_buffer(function () {
@@ -54,8 +60,8 @@
         video_manager.show_videos();
         answer_manager.show_answers();
 
-        process_indicator.show_play_bar();
-        process_indicator.hide_progress_bar();
+        game_process_indicator.show_play_bar();
+        game_process_indicator.hide_progress_bar();
 
         player_manager.play_queue(function () {
           console.log("✓ All movies played!");
@@ -64,7 +70,7 @@
           answer_manager.hide_answers();
 
           screen_manager.show_screen("screen-thanks");
-          process_indicator.hide_play_bar();
+          game_process_indicator.hide_play_bar();
 
           thanks.on_close(function () {
             screen_manager.show_screen("screen-results");
@@ -75,7 +81,9 @@
     });
 
     socket.on('game-create', function (id) {
-      console.log('[game] ✓ game created id', id);
+      console.log('[game] ✓ game-created', id);
+
+      trailer.GAME_ID = id;
 
       screen_manager.show_screen("screen-send-link");
 
@@ -93,7 +101,7 @@
     });
 
     socket.on('player-create', function (data) {
-      console.log('[game] ✓ player created', data.id);
+      console.log('[game] ✓ player-create', data.id);
 
       pklib.cookie.create("user_id", data.id);
 
@@ -103,7 +111,7 @@
 
     // socket.emit('game-answer', game_id, movie_id, answer_id, time);
     socket.on('game-answer', function (game_id, movie_id, answer_id, time, player_id, correct) {
-      console.log('[game] ✓ game answer', player_id, correct);
+      console.log('[game] ✓ game-answer', game_id, movie_id, answer_id, time, player_id, correct);
     });
 
     // common error handler

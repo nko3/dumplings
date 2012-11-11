@@ -5,12 +5,14 @@
 //= require page/sent-link.js
 //= require page/versus.js
 //= require page/thanks.js
+//= require loading/game-process-indicator.js
+//= require loading/watch-movie-process-indicator.js
+//= require loading/versus-process-indicator.js
 //= require utils.js
 //= require game.js
 //= require list.js
 //= require movie.js
 //= require movie-manager.js
-//= require process-indicator.js
 //= require answer-manager.js
 //= require video-manager.js
 //= require screen-manager.js
