@@ -131,8 +131,9 @@
       var result = link.prev();
       result.fadeIn();
       result.addClass((data.correct) ? "alert-success" : "alert-danger");
-      var answer = $("<span/>").html(((data.correct) ? "✓" : "✗") + " <strong>" + data.player_name + "</strong> " + data.time.toFixed(3) + "s");
-      result.append(answer);
+      var answer = ((data.correct) ? "✓" : "✗") + " <strong>" + data.player_name + "</strong> " + data.time.toFixed(3) + "s";
+      var $answer = $("<p/>").html(answer);
+      result.append($answer);
     });
 
     socket.on("game-stopped", function (data) {
@@ -150,6 +151,13 @@
       console.log('[ERROR] ✗', msg);
 
       new trailer.Message().error("SOCKET_ERROR: " + msg);
+    });
+
+    socket.on('status', function (data) {
+      console.log('status: ', data);
+
+      $(".dashboard .games").text(data.games);
+      $(".dashboard .points").text(data.points.toFixed(3));
     });
   });
 }).call(this);
