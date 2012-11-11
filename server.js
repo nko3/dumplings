@@ -92,6 +92,8 @@ function randMovies(cb) {
     coll = movies.splice( parseInt( (Math.random()*(movies.length-20)) ),20);
   }
 
+  console.log('rand movies movies='+movies.length);
+
   var selected = [], selected_num = 0, correct = {};
 
     coll.forEach(function(movie) {
@@ -127,6 +129,8 @@ function randMovies(cb) {
         correct[movie.yt] = movie.id;
       }
     });
+
+    
 
     cb(selected, correct);
 }
