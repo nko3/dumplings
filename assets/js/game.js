@@ -116,7 +116,7 @@
       var result = link.prev();
       result.fadeIn();
       result.addClass((data.correct) ? "alert-success" : "alert-danger");
-      var answer = $("<span/>").html((data.correct) ? "✓" : "✗" + " <strong>" + data.player_name + "</strong> " + data.time.toFixed(3) + "s");
+      var answer = $("<span/>").html(((data.correct) ? "✓" : "✗") + " <strong>" + data.player_name + "</strong> " + data.time.toFixed(3) + "s");
       result.append(answer);
     });
 

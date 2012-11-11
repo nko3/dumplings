@@ -168,13 +168,16 @@
     this._lib.play();
 
     finish_interval = setInterval(function () {
-      var current_time = parseInt((self._lib.getPosition()).toFixed(0), 10);
+      var current_position = self._lib.getPosition();
+      if (current_position !== null) {
+        var current_time = parseInt((current_position).toFixed(0), 10);
 
-      if (self._start_time + Movie.MAX_MOVIE_PLAY <= current_time) {
-        watch_movie_process_indicator.grow(100);
+        if (self._start_time + Movie.MAX_MOVIE_PLAY <= current_time) {
+          watch_movie_process_indicator.grow(100);
 
-        clearInterval(finish_interval);
-        callback(self._uid);
+          clearInterval(finish_interval);
+          callback(self._uid);
+        }
       }
     }, 300);
   };

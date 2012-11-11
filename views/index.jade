@@ -6,8 +6,6 @@ block content
       h1 Trailer Challenge
       iframe(src="http://nodeknockout.com/iframe/dumplings", frameborder="0", scrolling="no", allowtransparency="true", width="115", height="25")
 
-      img(src="/img/chrome.png", alt="Only for the best").chrome-icon
-      span.label.label-warning.chrome-label Only for Chrome
 
       section.right
         a.js-show-rules.btn.btn-larger.btn-inverse
@@ -23,22 +21,29 @@ block content
           &nbsp;&nbsp;New Game
 
     section.page-body.well
-      include screen/1_hello
-      include screen/2_send_link
-      include screen/3_versus
-      include screen/4_game
-      include screen/5_results
-      include screen/highscore
-      include screen/rules
+      section.screens
+        include screen/1_hello
+        include screen/2_send_link
+        include screen/3_versus
+        include screen/4_game
+        include screen/5_results
+
+      section.layers
+        include layer/highscore
+        include layer/rules
 
     section.messages
 
     footer.page-footer
       p Copyright &copy; 2012
+        img(src="/img/chrome.png", alt="Only for the best").chrome-icon
+        span.label.label-warning.chrome-label Only for Chrome
+
       ul.pull-right
         li
           a(href="http://kamilzaleski.com/", rel="outerlink") @kamil
         li
           a(href="http://piecioshka.pl/", rel="outerlink") @piecioshka
+
       p.pull-right Authors:
       div.clearfix
