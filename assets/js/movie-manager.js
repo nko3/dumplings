@@ -10,7 +10,7 @@
   }
 
   MovieManager.prototype.create_movies = function (number) {
-    // console.log("[game] MovieManager create_movies");
+    console.log("[game] MovieManager create_movies");
 
     var i = 0;
 
@@ -29,7 +29,7 @@
   };
 
   MovieManager.prototype.load_all_movies_buffer = function (callback) {
-    // console.log("[game] MovieManager load_all_movies_buffer");
+    console.log("[game] MovieManager load_all_movies_buffer");
 
     var self = this,
       ready_movies = 0,
@@ -47,8 +47,6 @@
 
       // aktualizujemy pasek postepu
       game_process_indicator.grow_loading_percent_value_of(ready_movies, max_ready_movies);
-
-//      console.log("ready_movies", ready_movies, "max_ready_movies", max_ready_movies);
 
       // jeśli wszystkie są ready to uruchamiamy callback
       if (ready_movies === max_ready_movies) {
@@ -73,7 +71,7 @@
   };
 
   MovieManager.prototype.play_queue = function (callback, movies) {
-//    console.log("[game] MovieManager play_queue");
+    console.log("[game] MovieManager play_queue");
 
     var self = this,
         last = null;
@@ -91,7 +89,7 @@
         });
         watch_movie_process_indicator.clear();
 
-        // console.log("[game] Movie#" + uid + " finish");
+        console.log("[game] Movie#" + uid + " finish");
         self.play_queue(callback, movies);
       });
 
