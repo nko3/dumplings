@@ -47,14 +47,13 @@ function randMovies(cb) {
       if (selected_num >= num) {
         var trig = false;
         _.each(selected, function (value, key) {
-          console.log(value, key);
+          //console.log(value, key);
           if (!("answers" in selected[key])) {
             selected[key].answers = [];
           }
           if (selected[key].answers.length <= 3 & !trig) {
             selected[key].answers.push({
               id: movie.id,
-              url: "http://www.youtube.com/watch?v=" + key,
               title: movie.yt.title
             });
             trig = true;
@@ -62,10 +61,14 @@ function randMovies(cb) {
         });
       } else {
         selected.push({
-          id: movie.id,
+          id: movie.yt.id,
           url: "http://www.youtube.com/watch?v=" + movie.yt.id,
-          title: movie.yt.title
+          answers: [{
+            id: movie.id,
+            title: movie.yt.title
+          }]
         });
+
         selected_num += 1;
 
         correct[movie.yt.id] = movie.id;
@@ -75,6 +78,9 @@ function randMovies(cb) {
     cb(selected, correct);
   });
 }
+
+
+
 
 var GameManager;
 
