@@ -5,7 +5,6 @@
 //= require utils.js
 //= require page/sent-link.js
 //= require page/versus.js
-//= require page/thanks.js
 //= require page/game-results.js
 //= require page/highscore.js
 //= require loading/game-process-indicator.js
