@@ -18,7 +18,8 @@
     "socket.io": "*",
     "mongoose": "*",
     "common-node": "*",
-    "underscore": "*"
+    "underscore": "*",
+    "async": "*"
   },
   "engines": {
     "node": "0.8.x"

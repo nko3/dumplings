@@ -19,7 +19,8 @@ var PlayerDB = db.model('players', playerSchema);
 
 var gameSchema = mongoose.Schema({
   state: { type: String, default: 'new' },
-  players: Array, 
+  players: Array,
+  playersInfos: Array,
   movies: Mixed,
   correct: Mixed,
   answers: Array,
