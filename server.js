@@ -10,6 +10,7 @@ var express = require('express')
   , io = require('socket.io')
   , db = require('./db')
   , _ = require('underscore')
+  , async = require('async')
   , path = require('path');
 
 var app = express();
@@ -116,8 +117,8 @@ function getSP(socket_id) {
   return _.invert(players)[socket_id]
 }
 
-function findGame(socket,game_id,cb) {
-  db.Game.findById(game_id,function(err,game) {
+function findGame(socket,gameId,cb) {
+  db.Game.findById(gameId,function(err,game) {
     if (game) {
       cb(game);
     } else {
@@ -126,35 +127,59 @@ function findGame(socket,game_id,cb) {
   });
 }
 
+function forEachPlayer(players,cb) {
+  players.forEach(function(player){
+    if (!getPS(player)) {
+      cb(player,true);
+    } else {
+      cb(player,false);
+    }
+  });
+}
+
+function findPlayer(id,cb) {
+   db.Player.findById(id,function(err,player) {
+    if (player) {
+      cb(player);
+    } else {
+      //socket.emit('error','PLAYER NOT FOUND');
+    }
+  });
+
+}
+
 
 io.on('connection', function(socket) {
 
-  socket.on('game-play',function(id) {
-    db.Game.findById(id,function(err,game) {
-      if (game) {
-        if (game.players.length == 2 ) {
+  socket.on('game-play',function(gameId) {
+    findGame(socket,gameId,function(game) {
+      if (game.players.length == 2 ) {
 
           var isOk = true;
 
-          game.players.forEach(function(player){
-            if (!getPS(player)) {
+          forEachPlayer( game.players, function(player,playerExists) {
+            if (!playerExists) {
               socket.emit('error',"NOT EVERY PLAYER ONLINE");
               isOk = false;
             }
           });
 
+
           if (isOk) {
-            game.players.forEach(function(player) {
-              getPS(player).emit('game-played',{
-                movies: game.movies
-              });
+
+            // If everything is OK send movies to challange palyers
+
+            forEachPlayer( game.players, function(player,playerExists) {
+              if (playerExists) {
+                getPS(player).emit('game-played',{
+                  movies: game.movies
+                });
+              }
             });
 
           }
 
-
-        }
-      }
+      } // if number of players is enough
     });
   });
 
@@ -175,11 +200,20 @@ io.on('connection', function(socket) {
         randMovies(function(movies,correct) {
           game.movies = movies;
           game.correct = correct;
-          game.save(function(error) {
-            if (!error) {
-              socket.emit('game-create',game.id);
-            }
+          var currentPlayer = getSP(socket.id);
+
+          findPlayer(currentPlayer,function(player) {
+
+            game.playersInfos.push({ name: player.name });
+
+            game.save(function(error) {
+              if (!error) {
+                socket.emit('game-create',game.id,game.playersInfos);
+              }
+            });
+
           });
+
         });
       }
     });
@@ -276,48 +310,41 @@ io.on('connection', function(socket) {
 
         if (game.players.length < 2 ) {
 
-          var isOk = true;
-          game.players.push(getSP(socket.id)); // current player
+          var isOk = true, currentPlayer;
+        
+          currentPlayer = getSP(socket.id);
+
+          game.players.push(currentPlayer); // current player
           game.players.forEach(function(player){
             if (!getPS(player)) {
               socket.emit('error',"NOT EVERY PLAYER ONLINE");
               isOk = false;
             } else {
-              //getPS(player).emit('game-ready',{ players: game.players });
-              //if (getPS(player)) {
-              //    getPS(player).emit('game-ready',{ players: game.players });
-
-                //  setTimeout(function() {
-                  //  getPS(player).emit('game-start',{
-                  //    movies: game.movies
-                  //  });
-                 // },5000);
-
-               // }
-
             }
           });
 
           if (isOk) {
-            game.save(function(err) {
-              game.players.forEach(function(player){
-                if (getPS(player)) {
-                  getPS(player).emit('game-ready',{ players: game.players });
 
-                  setTimeout(function() {
-                    getPS(player).emit('game-start',{
-                      movies: game.movies
-                    });
-                  },5000);
+            findPlayer(currentPlayer,function(player) {
+              game.playersInfos.push({name:player.name});
+              game.save(function(err) {
+                game.players.forEach(function(player){
+                  if (getPS(player)) {
+                    getPS(player).emit('game-ready',{ players: game.playersInfos });
 
-                }
+                    setTimeout(function() {
+                      getPS(player).emit('game-start',{
+                        movies: game.movies,
+                        players: game.playersInfos
+                      });
+                    },6000);
+
+                  }
+                });
               });
 
-
-
-
-
             });
+
           } else {
             socket.emit('error',"GAME IS FUCKED UP");
           }
@@ -365,6 +392,6 @@ app.get('/', function(req, res){
     socket = 'http://localhost:3000/';
   }
 
-  res.render('index', { title: 'TrailerRoll', config: { socket: socket, env: app.get('env') } });
+  res.render('index', { title: 'TrailerPOP', config: { socket: socket, env: app.get('env') } });
 });
 
