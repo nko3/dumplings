@@ -49,8 +49,8 @@
 
     jwplayer(name).setup({
       "file": this._config.url,
-      "width": '300',
-      "height": '200'
+      "width": '750',
+      "height": '400'
     });
 
     this._lib = jwplayer(this._uid)
