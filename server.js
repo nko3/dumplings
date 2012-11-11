@@ -439,7 +439,8 @@ io.on('connection', function(socket) {
           PlayerDB.findById(player,function(err,playerObj) {
             if (playerObj) {
               cb(null,{
-                player: playerObj.name,
+                player_id: player,
+                player_name: playerObj.name,
                 correct: answer_correct[player],
                 time: answer_time[player]
               });
