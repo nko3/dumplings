@@ -11,11 +11,18 @@
       var close  = layer_to_show.find(".close");
 
       close.on("click", function () {
-        layer_to_show.fadeOut()
+        layer_to_show.animate({
+          "top": -1000
+        });
       });
 
-      layer_to_show.siblings().hide();
-      layer_to_show.fadeIn();
+      layer_to_show.siblings().animate({
+        "top": -1000
+      });
+
+      layer_to_show.animate({
+        "top": 20
+      });
     }
   };
 }).call(this);

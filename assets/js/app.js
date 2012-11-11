@@ -6,7 +6,7 @@
 //= require page/sent-link.js
 //= require page/versus.js
 //= require page/game-results.js
-//= require page/highscore.js
+//= require layer/highscore.js
 //= require loading/game-process-indicator.js
 //= require loading/watch-movie-process-indicator.js
 //= require loading/versus-process-indicator.js
