@@ -10,7 +10,7 @@
   }
 
   MovieManager.prototype.create_movies = function (number) {
-    console.log("[game] MovieManager create_movies");
+    // console.log("[game] MovieManager create_movies");
 
     var i = 0;
 
@@ -29,7 +29,7 @@
   };
 
   MovieManager.prototype.load_all_movies_buffer = function (callback) {
-    console.log("[game] MovieManager load_all_movies_buffer");
+    // console.log("[game] MovieManager load_all_movies_buffer");
 
     var self = this,
       ready_movies = 0,
