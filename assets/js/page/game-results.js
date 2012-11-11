@@ -24,6 +24,10 @@
       }
 
       $(".screen-results .answers-status tbody").replaceWith(list);
+
+      $(".success-bar .close").on("click", function () {
+        $(".success-bar").remove();
+      });
     }
   };
 }).call(this);

@@ -70,13 +70,9 @@
           video_manager.hide_videos();
           answer_manager.hide_answers();
 
-          screen_manager.show_screen("screen-thanks");
           game_process_indicator.hide_play_bar();
 
-          thanks.on_close(function () {
-            screen_manager.show_screen("screen-results");
-            game_results.init();
-          });
+          socket.emit("game-stop");
 
         }, player_manager._movies);
       });
@@ -117,6 +113,14 @@
 
       $("[answer_id=" + answer_id + "]").addClass((correct) ? "btn-success" : "btn-danger")
     });
+
+    socket.on("game-stopped", function (data) {
+      var results = data.results;
+      var player = data.player;
+
+      screen_manager.show_screen("screen-results");
+      game_results.init();
+    })
 
     // common error handler
     socket.on('error', function (msg) {
