@@ -415,8 +415,9 @@ io.on('connection', function(socket) {
       game.answers.forEach(function(answer) {
         if (answer.correct) {
           answer_correct[answer.player_id] += 1;
-          answer_time[answer.player_id] += answer.time;
         }
+
+        answer_time[answer.player_id] += answer.time;
       });
 
       var won_by_correct = _.invert(answer_correct)[_.max(answer_correct)];
