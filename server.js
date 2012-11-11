@@ -201,6 +201,7 @@ var lastMessage = {};
 setInterval(function() {
 
     var parallel = {
+      
       games: function(cb) {
         GameDB.count({},function(err,count) {
           if (count) {
@@ -208,7 +209,8 @@ setInterval(function() {
           }
         });
       },
-      playerPoints: function(cb) {
+
+      points: function(cb) {
          PlayerDB.find({}).select('points').exec(function(err,coll) {
           var sumPoints = 0;
           coll.forEach(function(player) {
@@ -224,7 +226,7 @@ setInterval(function() {
     async.parallel( parallel, function(err, results) {
       if (!_.isEqual(lastMessage,results)) {
         lastMessage = results;
-        io.sockets.emit('status', lastMessage);
+        io.sockets.volatile.emit('status', lastMessage);
         console.log(lastMessage);
       }
     });
