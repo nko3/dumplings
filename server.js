@@ -196,7 +196,48 @@ function findPlayer(id,cb) {
 }
 
 
+var lastMessage = {};
+
+setInterval(function() {
+
+    var parallel = {
+      games: function(cb) {
+        GameDB.count({},function(err,count) {
+          if (count) {
+            cb(null,count);
+          }
+        });
+      },
+      playerPoints: function(cb) {
+         PlayerDB.find({}).select('points').exec(function(err,coll) {
+          var sumPoints = 0;
+          coll.forEach(function(player) {
+            if (player.points) {
+              sumPoints += player.points;
+            }
+          });
+          cb(null,sumPoints);
+         });
+      }
+    };
+    
+    async.parallel( parallel, function(err, results) {
+      if (!_.isEqual(lastMessage,results)) {
+        lastMessage = results;
+        io.sockets.emit('status', lastMessage);
+        console.log(lastMessage);
+      }
+    });
+
+}, 5000 );
+
+
+
+
 io.on('connection', function(socket) {
+
+
+
 
   socket.on('game-play',function(gameId) {
     findGame(socket,gameId,function(game) {
