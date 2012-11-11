@@ -15,6 +15,7 @@
     return item;
   }
 
+  /// public API
   global.game_results = {
     init: function () {
       var list = $("<tbody/>");

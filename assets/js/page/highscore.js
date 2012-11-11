@@ -4,30 +4,36 @@
   // master scope
   var global = this;
 
-  function build_single_user_score(user) {
+  function build_single_user_score(score) {
     var item = $("<tr />");
-    var $user = $("<td/>").text($("<span/>").addClass("label label-success").text(user.name));
+
+    var user = $("<span/>");
+    user.addClass("label");
+    user.text(score.name);
+
+    var $user = $("<td/>");
+    $user.html(user);
     item.append($user);
-    var $correct_field = $("<td/>").text(33);
-    item.append($correct_field);
-    var $competition_time = $("<td/>").text("Milion sekund :P");
-    item.append($competition_time);
+
+    var $score = $("<td/>").text("TODO");
+    item.append($score);
     return item;
   }
 
+  // public API
   global.highscore = {
     init: function () {
-      socket.emit('game-highscore', function (col) {
-        console.log(col);
-
+      socket.emit('game-highscore', function (scores) {
         var list = $("<tbody/>");
 
-        for (var i = 0; i < versus._players.length; ++i) {
-          list.append(build_single_user_score(versus._players[i]));
+        for (var i = 0; i < scores.length; ++i) {
+          var score_row = build_single_user_score(scores[i]);
+          list.append(score_row);
         }
 
         $(".screen-highscore .highscore tbody").replaceWith(list);
       });
+      console.log("COMMAND game-highscore /callback/");
     }
   };
 }).call(this);

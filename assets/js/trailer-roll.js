@@ -18,6 +18,7 @@
 
   function show_highscore() {
     screen_manager.show_screen("screen-highscore");
+    highscore.init();
   }
 
   $(function () {
