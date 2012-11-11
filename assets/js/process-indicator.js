@@ -8,15 +8,11 @@
   var current_percent_progress = 0;
 
   function can_change(new_percent) {
-    var status = new_percent > current_percent_progress && new_percent < 100;
-    if (status) {
-      console.log("new_percent", new_percent, "current_percent_progress", current_percent_progress);
-    }
-    return status;
+    return new_percent > current_percent_progress && new_percent < 100;
   }
 
   function update_progress_view(percent) {
-    $(".videos-wrapper .progress .bar").css({
+    $(".progress .bar").css({
       width: percent + "%"
     });
   }
@@ -47,8 +43,12 @@
       $(".total-page").html(id);
     },
 
+    show_progress_bar: function () {
+      $(".screen-game .progress").show();
+    },
+
     hide_progress_bar: function () {
-      $(".videos-wrapper .progress").remove();
+      $(".screen-game .progress").remove();
     },
 
     grow_loading_percent_value: function (val, max) {

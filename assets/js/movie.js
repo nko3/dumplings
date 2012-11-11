@@ -168,7 +168,7 @@
 
   Movie.prototype._create_dom_answer = function (answer_obj) {
     var item = $("<li />");
-    item.append($("<a />").html(answer_obj.title).addClass("btn btn-large"));
+    item.append($("<a />").html(pklib.string.slice(answer_obj.title, 200)).addClass("btn btn-large"));
     return item;
   };
 

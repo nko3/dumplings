@@ -11,7 +11,7 @@ exports.index = function (req, res) {
   }
 
   res.render('index', {
-    title: 'TrailerPOP', config: {
+    title: 'TrailerRoll', config: {
       socket: socket,
       env: app.get('env')
     }

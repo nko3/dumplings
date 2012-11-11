@@ -40,6 +40,10 @@
 
       // stworz playery
       player_manager.create_movies(5);
+
+      process_indicator.show_progress_bar();
+      video_manager.hide_videos();
+
       player_manager.load_all_movies_buffer(function () {
         console.log("✓ All movies loaded");
 

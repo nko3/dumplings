@@ -365,6 +365,6 @@ app.get('/', function(req, res){
     socket = 'http://localhost:3000/';
   }
 
-  res.render('index', { title: 'TrailerPOP', config: { socket: socket, env: app.get('env') } });
+  res.render('index', { title: 'TrailerRoll', config: { socket: socket, env: app.get('env') } });
 });
 
