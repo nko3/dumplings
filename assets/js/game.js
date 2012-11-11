@@ -154,7 +154,7 @@
     });
 
     socket.on('status', function (data) {
-      console.log('status: ', data);
+      console.log('[dashboard] ✓ status: ', data);
 
       $(".dashboard .games").text(data.games);
       $(".dashboard .points").text(data.points.toFixed(3));
