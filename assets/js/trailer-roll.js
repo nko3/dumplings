@@ -3,8 +3,8 @@
 
   function create_new_game() {
     // czyscimy cookie
-    pklib.cookie.remove("user_name");
-    pklib.cookie.remove("user_id");
+    // pklib.cookie.remove("user_name");
+    // pklib.cookie.remove("user_id");
     // redirect do glownej strony
     var protocol = document.location.protocol;
     var host = document.location.host;
