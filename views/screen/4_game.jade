@@ -1,21 +1,19 @@
 section.screen.screen-game
-  header.play-bar
-    section.pagination
-      ul
-        li
-          span Game progress:
-        li
-          a.current-page
-        li
-          span z
-        li
-          a.total-page
+  section.opponents.centered-container
+    h1.left-part.left-opponent --- opponent #1 ---
+    span.minus vs.
+    h1.right-part.right-opponent --- opponent #2 ---
 
   section.game-loading-panel.alert.alert-block
     span.label Loading movies... Please wait
     section.progress.progress-striped.active
       section.bar
     div.clearfix
+
+  header.play-bar.centered-container
+    h1.left-part.current-page
+    span.minus /
+    h1.right-part.total-page
 
   section.videos-wrapper
     section.videos
