@@ -17,7 +17,7 @@
     return item;
   }
 
-  function get_winnder_id(results) {
+  function get_winner_id(results) {
     results = results.sort(function (x, y) {
       var n = x.correct - y.correct;
 
@@ -28,13 +28,15 @@
       return x.time - y.time;
     });
 
+    console.log("results", results);
+
     return results[0].player_id;
   }
 
   function update_view_answer_status(results) {
     var is_winner = false,
       list = $("<tbody/>"),
-      winner_id = get_winnder_id(results);
+      winner_id = get_winner_id(results);
 
     for (var i = 0; i < results.length; ++i) {
       is_winner = (winner_id == results[i].player_id);

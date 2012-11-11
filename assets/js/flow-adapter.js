@@ -17,10 +17,12 @@
 
       if (user_id !== null) {
         // JEST COOKIE
+        socket.on("player-loged", function () {
+          flow_adapter._game_flow();
+        });
+
         socket.emit('player-login', user_id);
         console.log("COMMAND: player-login \"" + user_id + "\"");
-
-        flow_adapter._game_flow();
       } else {
         // NIE MA COOKIE
         // pokazujemy panel logowania

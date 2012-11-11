@@ -25,8 +25,10 @@
     console.log("[game] Trailer Challenge - GO GO GO!");
     console.log("------------------------------------");
 
-    trailer.setup_game();
-    flow_adapter.init();
+    trailer.setup_game(function () {
+      flow_adapter.init();
+    });
+
     pklib.utils.action.outerlink();
 
     $(".js-start-new-game, .page-header h1").on("click", create_new_game);

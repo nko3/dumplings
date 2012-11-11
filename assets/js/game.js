@@ -23,7 +23,7 @@
 
 
   // let's rock!
-  trailer.setup_game = function () {
+  trailer.setup_game = function (after_connect_fn) {
     console.log("[game] trailer.setup_game");
 
     global.socket = new io.connect(Config.socket, {
@@ -32,6 +32,10 @@
 
     socket.on('connect', function () {
       console.log('[game] ✓ connected');
+
+      if (typeof after_connect_fn === "function") {
+        after_connect_fn();
+      }
     });
 
     socket.on('disconnect', function() {
@@ -45,6 +49,15 @@
     socket.on('reconnect', function() {
       console.log('[game] ✓ reconnected');
       flow_adapter.init();
+    });
+
+    socket.on('player-create', function (data) {
+      console.log('[game] ✓ player-create', data.id);
+
+      pklib.cookie.create("user_id", data.id);
+
+      // spradzamy czy user wchodzi z linku
+      flow_adapter._game_flow();
     });
 
     socket.on('game-ready', function (data) {
@@ -118,15 +131,6 @@
       // document.location.hash = game_url;
 
       sent_link.init();
-    });
-
-    socket.on('player-create', function (data) {
-      console.log('[game] ✓ player-create', data.id);
-
-      pklib.cookie.create("user_id", data.id);
-
-      // spradzamy czy user wchodzi z linku
-      flow_adapter._game_flow();
     });
 
     // socket.emit('game-answer', game_id, movie_id, answer_id, time);
