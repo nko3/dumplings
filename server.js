@@ -346,20 +346,25 @@ io.on('connection', function(socket) {
 
   }); 
 
-  socket.on('game-join',function(id) {
+  socket.on('game-join',function(gameId) {
     // find game
     // check state
     // check if everybody is online
     // add players
 
-    GameDB.findById(id,function(err,game) {
-      if (game) {
+    findGame(socket,gameId,function(game) {
 
         if (game.players.length < 2 ) {
 
           var isOk = true, currentPlayer;
         
           currentPlayer = getSP(socket.id);
+
+          if (_.indexOf(game.players,currentPlayer) > -1) {
+            socket.emit('error',"Sorry but You can't play with yourself. At least use incognito mode");
+            isOk = false;
+          }
+
 
           game.players.push(currentPlayer); // current player
           game.players.forEach(function(player){
@@ -391,18 +396,12 @@ io.on('connection', function(socket) {
               });
 
             });
-
           } else {
             socket.emit('error',"GAME IS FUCKED UP");
           }
-
         } else {
           socket.emit('error','GAME HAS 2 PLAYERS ALREADY');
         }
-
-      } else {
-        socket.emit('error','GAME DO NOT EXISTS');
-      }
     });
 
 
