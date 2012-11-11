@@ -44,7 +44,9 @@
       trailer.List = data.movies;
 
       for (var i = 0; i < trailer.List.length; ++i) {
-        trailer.List[i].duration = 3 * 60;
+        if (!("duration" in trailer.List[i])) {
+          trailer.List[i].duration = 3 * 60;
+        }
       }
 
       screen_manager.show_screen("screen-game");
@@ -113,8 +115,10 @@
     });
 
     // socket.emit('game-answer', game_id, movie_id, answer_id, time);
-    socket.on('game-answer', function (game_id, movie_id, answer_id, time, player_id, correct) {
-      console.log('[game] ✓ game-answer', game_id, movie_id, answer_id, time, player_id, correct);
+    socket.on('game-answered', function (game_id, movie_id, answer_id, time, player_id, correct) {
+      console.log('[game] ✓ game-answered', game_id, movie_id, answer_id, time, player_id, correct);
+
+      $("[answer_id=" + answer_id + "]").addClass((correct) ? "btn-success" : "btn-danger")
     });
 
     // common error handler

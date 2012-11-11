@@ -7,7 +7,7 @@
   // public API
   global.versus = {
     init: function () {
-      console.log("[page] versus.init");
+      // console.log("[page] versus.init");
       var percent = 0,
         loading_interval;
 
@@ -23,7 +23,7 @@
     },
 
     set_players: function (players) {
-      console.log("[page] versus.set_players", players);
+      // console.log("[page] versus.set_players", players);
       var left_player = players[0].name,
         right_player = players[1].name;
 

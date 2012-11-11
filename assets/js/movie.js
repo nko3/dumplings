@@ -5,11 +5,11 @@
   var global = this;
 
   function Movie(config) {
-    // console.log("[game] Movie#" + config.id + "");
+    console.log("[game] Movie#" + config.id + "");
     // ustawienia materialu filmoweg
     this._config = config;
     // ID filmu, inkrementowane od 0
-    this._uid = config.id;
+    this._uid = config.player_id;
     // init library jwplayer
     this._lib = null;
     // reprezentacja DOM
@@ -91,7 +91,7 @@
 
     this._lib.onTime(function () {
       var current_time = parseInt((self._lib.getPosition()).toFixed(0), 10);
-      var timeout = current_time - self._start_time;
+      var timeout = self._lib.getPosition() - self._start_time;
 
       trailer.ANSWER_TIMEOUT = timeout;
 
