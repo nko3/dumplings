@@ -116,7 +116,7 @@
       var result = link.prev();
       result.fadeIn();
       link.addClass((data.correct) ? "btn-success" : "btn-danger");
-      var answer = $("<span/>").html(data.player_id);
+      var answer = $("<span/>").html("<strong>" + data.player_name + "</strong> odpowiedział po " + data.time);
       result.append(answer);
     });
 
