@@ -268,8 +268,18 @@ io.on('connection', function(socket) {
   });
 
   socket.on('game-highscore', function(cb) {
-    PlayerDB.find({}).sort({points: 1}).limit(25).exec(function(err,coll) {
-      cb(coll);
+    PlayerDB.find({}).sort({points: -1}).limit(25).exec(function(err,coll) {
+      var pie = [];
+      
+      coll.forEach(function(player) {
+        pie.push({ 
+          name: player.name,
+          points: player.points
+        });
+      });
+
+
+      cb(pie);
     });
   });
 
@@ -300,22 +310,26 @@ io.on('connection', function(socket) {
       game.save(function() {
         // fuck results or not
         
-        findPlayer(currentPlayer,function(player) {
 
-          if (goodAnswer) {
-            player.points += 30/time;
+        PlayerDB.findById(currentPlayer,function(err,player) {
+          if (player) {
+
+            if (!player.points) {
+              player.points = 1;
+            }
+
+            if (goodAnswer) {
+              player.points += 30/time;
+            } else {
+              // nope
+            }
+
+            player.save(function(error) {});
+
           } else {
-            // nope
+            //socket.emit('error','PLAYER NOT FOUND');
           }
-
-          player.save(function(error) {
-          });
-
         });
-
-
-
-
 
       });
 
