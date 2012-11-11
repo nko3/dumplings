@@ -35,11 +35,11 @@
   // public API
   global.game_process_indicator = {
     hide_play_bar: function () {
-      $(".play-bar").fadeOut();
+      $(".screen-game .opponents, .screen-game .play-bar").fadeOut();
     },
 
     show_play_bar: function () {
-      $(".play-bar").fadeIn();
+      $(".screen-game .opponents, .screen-game .play-bar").fadeIn();
     },
 
     update_current_page_number: function (id) {
