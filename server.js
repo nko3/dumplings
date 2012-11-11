@@ -198,8 +198,8 @@ function findPlayer(id,cb) {
 
 var lastMessage = {};
 
-setInterval(function() {
-
+//setInterval(function() {
+function goStatus() {
     var parallel = {
       
       games: function(cb) {
@@ -230,8 +230,8 @@ setInterval(function() {
         console.log(lastMessage);
       }
     });
-
-}, 5000 );
+};
+//}, 5000 );
 
 
 
