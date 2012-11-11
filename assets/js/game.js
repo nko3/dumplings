@@ -109,10 +109,15 @@
     });
 
     // socket.emit('game-answer', game_id, movie_id, answer_id, time);
-    socket.on('game-answered', function (game_id, movie_id, answer_id, time, player_id, correct) {
-      console.log('[game] ✓ game-answered', game_id, movie_id, answer_id, time, player_id, correct);
+    socket.on('game-answered', function (data) {
+      console.log('[game] ✓ game-answered', data);
 
-      $("[answer_id=" + answer_id + "]").addClass((correct) ? "btn-success" : "btn-danger")
+      var link = $("[answer_id=" + data.answer_id + "]");
+      var result = link.prev();
+      result.fadeIn();
+      link.addClass((data.correct) ? "btn-success" : "btn-danger");
+      var answer = $("<span/>").html(data.player_id);
+      result.append(answer);
     });
 
     socket.on("game-stopped", function (data) {
