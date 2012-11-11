@@ -152,7 +152,7 @@
   };
 
   Movie.prototype.play_movie = function (callback) {
-    console.log("[game] Movie#" + this._uid + " play URL " + this._config.url);
+    // console.log("[game] Movie#" + this._uid + " play URL " + this._config.url);
 
     trailer.MOVIE_ID = this._config.id;
 
@@ -193,7 +193,7 @@
   };
 
   Movie.prototype.show_answers = function () {
-    console.log("[game] Movie#" + this._uid + " show_answers");
+    // console.log("[game] Movie#" + this._uid + " show_answers");
 
     var self = this,
       answers = this._config.answers,

@@ -4,7 +4,7 @@
   // master scope
   var global = this;
 
-  function build_single_answer(user) {
+  function build_single_user_score(user) {
     var item = $("<tr />");
     var $user = $("<td/>").text($("<span/>").addClass("label label-success").text(user.name));
     item.append($user);
@@ -17,13 +17,17 @@
 
   global.highscore = {
     init: function () {
-      var list = $("<tbody/>");
+      socket.emit('game-highscore', function (col) {
+        console.log(col);
 
-      for (var i = 0; i < versus._players.length; ++i) {
-        list.append(build_single_answer(versus._players[i]));
-      }
+        var list = $("<tbody/>");
 
-      $(".screen-results .answers-status tbody").replaceWith(list);
+        for (var i = 0; i < versus._players.length; ++i) {
+          list.append(build_single_user_score(versus._players[i]));
+        }
+
+        $(".screen-highscore .highscore tbody").replaceWith(list);
+      });
     }
   };
 }).call(this);

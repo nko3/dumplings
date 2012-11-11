@@ -72,7 +72,8 @@
 
           game_process_indicator.hide_play_bar();
 
-          socket.emit("game-stop");
+          socket.emit("game-stop", trailer.GAME_ID);
+          console.log("COMMAND game-stop \"" + trailer.GAME_ID + "\"");
 
         }, player_manager._movies);
       });
@@ -126,7 +127,7 @@
     socket.on('error', function (msg) {
       console.log('[ERROR] ✗', msg);
 
-      new trailer.Message().error(msg);
+      new trailer.Message().error("SOCKET_ERROR: " + msg);
     });
   });
 }).call(this);

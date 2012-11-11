@@ -91,8 +91,7 @@
         });
         watch_movie_process_indicator.clear();
 
-        console.log("[game] Movie#" + uid + " finish");
-        console.log("--------------------------------");
+        // console.log("[game] Movie#" + uid + " finish");
         self.play_queue(callback, movies);
       });
 
