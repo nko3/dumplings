@@ -24,6 +24,14 @@
           update_process_indicator(percent);
         }
       }, 1000);
+    },
+
+    set_players: function (players) {
+      var left_player = players[0],
+        right_player = players[1];
+
+      $(".left-opponent").html(left_player);
+      $(".right-opponent").html(right_player);
     }
   };
 }).call(this);

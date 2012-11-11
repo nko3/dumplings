@@ -17,12 +17,16 @@
     socket.on('connect', function () {
       console.log('[game] ✓ connected');
     });
-    socket.on('game-ready', function (players) {
-      console.log('[game] ✓ game-ready', players);
+    socket.on('game-ready', function (data) {
+      console.log('[game] ✓ game-ready', data);
 
       // pokazuje VERSUS
       screen_manager.show_screen("screen-versus");
       versus.init();
+
+      // uzupelniamy nazwy playerow
+      // narazie niestety sa to ID'ki
+      versus.set_players(data.players);
     });
 
     socket.on('game-start', function (data) {
