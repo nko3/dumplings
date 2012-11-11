@@ -3,6 +3,9 @@
  */
 
 exports.index = function (req, res) {
+  "use strict";
+
+  var socket;
 
   if (app.get('env') == 'production') {
     socket = 'http://dumplings.nko3.jit.su/';

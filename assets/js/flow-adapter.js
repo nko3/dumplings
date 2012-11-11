@@ -1,7 +1,7 @@
 (function () {
   "use strict";
 
-  // master global
+  // master scope
   var global = this;
 
   function game_link_exists() {

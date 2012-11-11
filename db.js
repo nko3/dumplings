@@ -1,3 +1,5 @@
+"use strict";
+
 var mongoose = require('mongoose'), Mixed = mongoose.Schema.Types.Mixed;
 
 var movieSchema = mongoose.Schema({
