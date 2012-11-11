@@ -8,7 +8,7 @@
     var item = $("<tr />");
     var $user = $("<td/>").html($("<span/>")
       .addClass("label " + ((is_winner) ? "label-success" : ""))
-      .text(user.player + ((is_winner) ? " - WINNER!" : "")));
+      .text(user.player_name + ((is_winner) ? " - WINNER!" : "")));
     item.append($user);
     var $correct_field = $("<td/>").text(user.correct);
     item.append($correct_field);
@@ -28,7 +28,7 @@
       return x.time - y.time;
     });
 
-    return results[results.length - 1].player_id;
+    return results[0].player_id;
   }
 
   /// public API
