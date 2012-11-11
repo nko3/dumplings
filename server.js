@@ -267,6 +267,12 @@ io.on('connection', function(socket) {
 
   });
 
+  socket.on('game-highscore', function(cb) {
+    PlayerDB.find({}).sort({points: 1}).limit(25).exec(function(err,coll) {
+      cb(coll);
+    });
+  });
+
   socket.on('game-answer', function(game_id,movie_id,answer_id,time) {
     // take game
     // check if answer is correct
@@ -276,15 +282,15 @@ io.on('connection', function(socket) {
       //
       //
 
-      var goodAnswer = game.correct[movie_id] == answer_id;
+      var goodAnswer = game.correct[movie_id] == answer_id, currentPlayer = getSP(socket.id);
 
       game.players.forEach(function(player) {
         console.log('player',player,goodAnswer);
-        getPS(player).emit('game-answered',game_id,movie_id,answer_id,time,getSP(socket.id),goodAnswer);
+        getPS(player).emit('game-answered',game_id,movie_id,answer_id,time,currentPlayer,goodAnswer);
       });
 
       game.answers.push({
-        player_id: getSP(socket.id),
+        player_id: currentPlayer,
         movie_id: movie_id,
         answer_id: answer_id,
         time: time,
@@ -292,7 +298,25 @@ io.on('connection', function(socket) {
       });
 
       game.save(function() {
-        // fuck results
+        // fuck results or not
+        
+        findPlayer(currentPlayer,function(player) {
+
+          if (goodAnswer) {
+            player.points += 30/time;
+          } else {
+            // nope
+          }
+
+          player.save(function(error) {
+          });
+
+        });
+
+
+
+
+
       });
 
 
