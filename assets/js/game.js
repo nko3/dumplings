@@ -66,6 +66,10 @@
           screen_manager.show_screen("screen-thanks");
           process_indicator.hide_play_bar();
 
+          thanks.on_close(function () {
+            screen_manager.show_screen("screen-results");
+          });
+
         }, player_manager._movies);
       });
     });
