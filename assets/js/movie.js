@@ -184,8 +184,13 @@
     var link = $("<a />").html(answer_obj.title).addClass("btn btn-large");
     link.attr("answer_id", answer_obj.id);
     link.on("click", function (evt) {
+      var li = $(this).parent();
+      var siblings = li.siblings();
+      siblings.find("a").off("click mousedown");
+
       $(this).addClass("btn-warning");
       answer_manager.send_answer($(this).attr("answer_id"));
+
       evt.preventDefault();
     });
     item.append(link);

@@ -116,12 +116,14 @@
     });
 
     socket.on("game-stopped", function (data) {
-      var results = data.results;
-      var player = data.player;
+      console.log('[game] ✓ game-stopped', data);
+
+      // var results = data.results;
+      // var player = data.player;
 
       screen_manager.show_screen("screen-results");
       game_results.init();
-    })
+    });
 
     // common error handler
     socket.on('error', function (msg) {
