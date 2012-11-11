@@ -35,11 +35,11 @@
   // public API
   global.game_process_indicator = {
     hide_play_bar: function () {
-      $(".screen-game .opponents, .screen-game .play-bar").fadeOut();
+      $(".screen-game .play-bar").hide();
     },
 
     show_play_bar: function () {
-      $(".screen-game .opponents, .screen-game .play-bar").fadeIn();
+      $(".screen-game .play-bar").show();
     },
 
     update_current_page_number: function (id) {
@@ -51,11 +51,11 @@
     },
 
     show_progress_bar: function () {
-      $(".screen-game .game-loading-panel").show();
+      $(".screen-game .opponents, .screen-game .game-loading-panel").show();
     },
 
     hide_progress_bar: function () {
-      $(".screen-game .game-loading-panel").remove();
+      $(".screen-game .opponents, .screen-game .game-loading-panel").remove();
     },
 
     grow_loading_percent_value_of: function (val, max) {
