@@ -122,7 +122,7 @@
       // var player = data.player;
 
       screen_manager.show_screen("screen-results");
-      game_results.init();
+      game_results.init(data.results);
     });
 
     // common error handler
