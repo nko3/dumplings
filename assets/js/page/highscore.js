@@ -7,15 +7,13 @@
   function build_single_user_score(score) {
     var item = $("<tr />");
 
-    var user = $("<span/>");
-    user.addClass("label");
+    var user = $("<span/>").addClass("label");
     user.text(score.name);
 
-    var $user = $("<td/>");
-    $user.html(user);
+    var $user = $("<td/>").html(user);
     item.append($user);
 
-    var $score = $("<td/>").text("TODO");
+    var $score = $("<td/>").text(parseInt(score.points, 10));
     item.append($score);
     return item;
   }
