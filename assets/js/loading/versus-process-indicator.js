@@ -16,12 +16,6 @@
     loader.css({
       width: percent + "%"
     });
-
-    if (percent > 0) {
-      loader.html(percent + "%");
-    } else {
-      loader.empty();
-    }
   }
 
   // public API
