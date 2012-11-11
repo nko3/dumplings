@@ -10,7 +10,6 @@
 //= require loading/versus-process-indicator.js
 //= require utils.js
 //= require game.js
-//= require list.js
 //= require movie.js
 //= require movie-manager.js
 //= require answer-manager.js

@@ -5,7 +5,7 @@
   var global = this;
 
   function Movie(config) {
-    console.log("[game] Movie#" + config.id + "");
+    // console.log("[game] Movie#" + config.id + "");
     // ustawienia materialu filmoweg
     this._config = config;
     // ID filmu, inkrementowane od 0

@@ -7,6 +7,8 @@
   // global namespace
   var trailer = global.trailer = {};
 
+  global.trailer.List = [];
+
   // ID gry
   trailer.GAME_ID = 0
 
@@ -54,7 +56,7 @@
       var player_manager = new trailer.MovieManager();
 
       // stworz playery
-      player_manager.create_movies(5);
+      player_manager.create_movies(trailer.List.length);
 
       game_process_indicator.show_progress_bar();
       video_manager.hide_videos();

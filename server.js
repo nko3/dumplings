@@ -39,7 +39,7 @@ var io = io.listen(server);
 var socGames = {}, playersSoc = {}, socPlayers = {}, players = {};
 
 function randMovies(cb) {
-  var num = 5;
+  var num = 20;
 
   db.Movie.find({}).limit(num * 4).skip(parseInt(Math.random()*500, 10)).exec(function(err,coll) {
     var selected = [], selected_num = 0, correct = {};
