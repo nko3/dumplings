@@ -5,7 +5,7 @@
   var global = this;
 
   function update_process_indicator(percent) {
-    $(".opponents .progress .bar").animate({
+    $(".versus-loading-panel .progress .bar").animate({
       width: "+=" + percent + "%"
     });
   }

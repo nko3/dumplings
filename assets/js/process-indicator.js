@@ -12,7 +12,7 @@
   }
 
   function update_progress_view(percent) {
-    $(".progress .bar").css({
+    $(".game-loading-panel .progress .bar").css({
       width: percent + "%"
     });
   }
@@ -44,11 +44,11 @@
     },
 
     show_progress_bar: function () {
-      $(".screen-game .progress").show();
+      $(".screen-game .game-loading-panel").show();
     },
 
     hide_progress_bar: function () {
-      $(".screen-game .progress").remove();
+      $(".screen-game .game-loading-panel").remove();
     },
 
     grow_loading_percent_value: function (val, max) {
