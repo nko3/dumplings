@@ -125,6 +125,8 @@
     // common error handler
     socket.on('error', function (msg) {
       console.log('[ERROR] ✗', msg);
+
+      new trailer.Message().error(msg);
     });
   });
 }).call(this);

@@ -1,10 +1,11 @@
 .page {
   width: 960px;
   margin: 0 auto;
+  position: relative;
 }
 
 /******************************************************************************/
-/* BODY */
+/* HEADER */
 /******************************************************************************/
 
 .page-header h1 {
@@ -38,6 +39,25 @@
   position: relative;
 }
 
+.messages {
+  display: none;
+}
+
+.messages .message {
+  width: 400px;
+  position: absolute;
+  left: 280px;
+  top: -1000px;
+}
+
+.messages .message p {
+  padding: 50px;
+}
+
+/******************************************************************************/
+/* FOOTER */
+/******************************************************************************/
+
 .page-footer {
   padding: 0 0 60px 0;
 }
@@ -56,3 +76,4 @@
   display: inline;
   margin: 0 5px 0 0;
 }
+
