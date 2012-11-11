@@ -277,18 +277,28 @@ io.on('connection', function(socket) {
         if (game.players.length < 2 ) {
 
           var isOk = true;
-
+          game.players.push(getSP(socket.id)); // current player
           game.players.forEach(function(player){
             if (!getPS(player)) {
               socket.emit('error',"NOT EVERY PLAYER ONLINE");
               isOk = false;
             } else {
-              //getPS(player).emit('error','PLAYER '+player+' is connecting...');
+              //getPS(player).emit('game-ready',{ players: game.players });
+              //if (getPS(player)) {
+              //    getPS(player).emit('game-ready',{ players: game.players });
+
+                //  setTimeout(function() {
+                  //  getPS(player).emit('game-start',{
+                  //    movies: game.movies
+                  //  });
+                 // },5000);
+
+               // }
+
             }
           });
 
           if (isOk) {
-            game.players.push(getSP(socket.id));
             game.save(function(err) {
               game.players.forEach(function(player){
                 if (getPS(player)) {
@@ -302,6 +312,11 @@ io.on('connection', function(socket) {
 
                 }
               });
+
+
+
+
+
             });
           } else {
             socket.emit('error',"GAME IS FUCKED UP");
