@@ -56,8 +56,8 @@
       var submit = $(".login-form .submit"),
         name = $(".name");
 
-      // keypress - > active submit
-      name.keyup(function () {
+      // keypress -> active submit
+      name.on("keyup blur click", function () {
         var _T = $(this);
 
         if (_T.val().length) {
