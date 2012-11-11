@@ -1,16 +1,20 @@
 
 /**
- * Module dependencies.
+ * TrailerRoll
  */
+
+
+console.log("TrailerRoll starting");
 
 var express = require('express')
   , routes = require('./routes')
   , user = require('./routes/user')
   , http = require('http')
   , io = require('socket.io')
-  , db = require('./db')
+  , dbSchema = require('./db')
   , _ = require('underscore')
   , async = require('async')
+  , mongoose = require('mongoose')
   , path = require('path');
 
 var app = express();
@@ -35,14 +39,57 @@ app.configure('development', function(){
 var server = http.createServer(app).listen(app.get('port'))
 var io = io.listen(server);
 
+// global bucket for player sockets
+var players = {};
 
-var socGames = {}, playersSoc = {}, socPlayers = {}, players = {};
+// movies cache
+var movies = [];
+
+io.configure('development', function () {
+  io.disable('log');
+  mongoURI = 'mongodb://nodejitsu_nko3-dumplings:ohkkhs8l2imtcf4paphpnrmv7o@ds039257.mongolab.com:39257/nodejitsu_nko3-dumplings_nodejitsudb3493680560';
+  console.log('ENV:DEVELOPMENT');
+});
+
+io.configure('production', function () {
+  io.disable('log');
+  mongoURI = 'mongodb://nodejitsu_nko3-dumplings:b3s2jallg1jj57n3pl3qirtirn@ds039267.mongolab.com:39267/nodejitsu_nko3-dumplings_nodejitsudb25521072';
+  console.log("ENV:PRODUCTION");
+});
+
+var db = mongoose.createConnection(mongoURI);
+
+var GameDB    = db.model('games',   dbSchema.gameSchema);
+var PlayerDB  = db.model('players', dbSchema.playerSchema);
+var MovieDB   = db.model('movies',  dbSchema.movieSchema);
+
+
+function preloadMovieDB() {
+  MovieDB.find({}).select('yt.id yt.duration name').exec(function(err,coll) {
+    coll.forEach(function(movie) {
+      movies.push({
+        id: movie.id,
+        yt: movie.yt.id,
+        du: movie.yt.durration,
+        na: movie.name
+      });
+    });
+    movies = _.shuffle(movies); 
+    console.log("Preloaded "+movies.length+" movies do node process");
+  });
+}
+
+preloadMovieDB();
+
 
 function randMovies(cb) {
   var num = 5;
 
-  db.Movie.find({}).limit(num * 4).skip(parseInt(Math.random()*500, 10)).exec(function(err,coll) {
-    var selected = [], selected_num = 0, correct = {};
+    
+  coll = movies.splice( parseInt( (Math.random()*(movies.length-20)) ),20);
+  
+  
+  var selected = [], selected_num = 0, correct = {};
 
     coll.forEach(function(movie) {
       if (selected_num >= num) {
@@ -54,29 +101,29 @@ function randMovies(cb) {
           if (selected[key].answers.length <= 3 & !trig) {
             selected[key].answers.push({
               id: movie.id,
-              title: movie.yt.title
+              title: movie.na
             });
             trig = true;
+            selected[key].answers = _.shuffle(selected[key].answers); 
           }
         });
       } else {
         selected.push({
-          id: movie.yt.id,
-          url: "http://www.youtube.com/watch?v=" + movie.yt.id,
+          id: movie.yt,
+          url: "http://www.youtube.com/watch?v=" + movie.yt,
           answers: [{
             id: movie.id,
-            title: movie.yt.title
+            title: movie.na
           }]
         });
 
         selected_num += 1;
 
-        correct[movie.yt.id] = movie.id;
+        correct[movie.yt] = movie.id;
       }
     });
 
     cb(selected, correct);
-  });
 }
 
 
@@ -118,7 +165,7 @@ function getSP(socket_id) {
 }
 
 function findGame(socket,gameId,cb) {
-  db.Game.findById(gameId,function(err,game) {
+  GameDB.findById(gameId,function(err,game) {
     if (game) {
       cb(game);
     } else {
@@ -138,7 +185,7 @@ function forEachPlayer(players,cb) {
 }
 
 function findPlayer(id,cb) {
-   db.Player.findById(id,function(err,player) {
+   PlayerDB.findById(id,function(err,player) {
     if (player) {
       cb(player);
     } else {
@@ -191,7 +238,7 @@ io.on('connection', function(socket) {
       return 0;
     }
 
-    var game = new db.Game({
+    var game = new GameDB({
       players: [getSP(socket.id)]
     });
 
@@ -305,7 +352,7 @@ io.on('connection', function(socket) {
     // check if everybody is online
     // add players
 
-    db.Game.findById(id,function(err,game) {
+    GameDB.findById(id,function(err,game) {
       if (game) {
 
         if (game.players.length < 2 ) {
@@ -368,7 +415,7 @@ io.on('connection', function(socket) {
   });
 
   socket.on('player-create', function(name) {
-    var player = new db.Player({ name: name });
+    var player = new PlayerDB({ name: name });
     player.save(function(error) {
       if (!error) {
         players[player.id] = socket.id;
@@ -392,6 +439,6 @@ app.get('/', function(req, res){
     socket = 'http://localhost:3000/';
   }
 
-  res.render('index', { title: 'TrailerPOP', config: { socket: socket, env: app.get('env') } });
+  res.render('index', { title: 'TrailerRoll', config: { socket: socket, env: app.get('env') } });
 });
 
