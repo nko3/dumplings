@@ -311,10 +311,15 @@ io.on('connection', function(socket) {
   });
 
   socket.on('game-highscore', function(cb) {
-    PlayerDB.find({}).sort({points: -1}).limit(25).exec(function(err,coll) {
+    PlayerDB.where('points').gt(0).sort({points: -1}).limit(25).exec(function(err,coll) {
       var pie = [];
       
       coll.forEach(function(player) {
+
+        if (player.points === null) {
+          player.points = 0;
+        }
+
         pie.push({ 
           name: player.name,
           points: player.points
