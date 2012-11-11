@@ -111,6 +111,7 @@ function randMovies(cb) {
         selected.push({
           id: movie.yt,
           url: "http://www.youtube.com/watch?v=" + movie.yt,
+          duration: movie.du,
           answers: [{
             id: movie.id,
             title: movie.na
