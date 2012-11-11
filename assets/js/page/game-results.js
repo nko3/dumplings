@@ -4,9 +4,11 @@
   // master scope
   var global = this;
 
-  function build_single_answer(user) {
+  function build_single_answer(user, is_winner) {
     var item = $("<tr />");
-    var $user = $("<td/>").html($("<span/>").addClass("label").text(user.player));
+    var $user = $("<td/>").html($("<span/>")
+      .addClass("label " + ((is_winner) ? "label-success" : ""))
+      .text(user.player + ((is_winner) ? " - WINNER!" : "")));
     item.append($user);
     var $correct_field = $("<td/>").text(user.correct);
     item.append($correct_field);
@@ -18,10 +20,11 @@
   /// public API
   global.game_results = {
     init: function (results) {
-      var list = $("<tbody/>");
+      var is_winner = false,
+        list = $("<tbody/>");
 
       for (var i = 0; i < results.length; ++i) {
-        list.append(build_single_answer(results[i]));
+        list.append(build_single_answer(results[i]), is_winner);
       }
 
       $(".screen-results .answers-status tbody").replaceWith(list);
