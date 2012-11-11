@@ -71,7 +71,7 @@ function preloadMovieDB() {
       movies.push({
         id: movie.id,
         yt: movie.yt.id,
-        du: movie.yt.durration,
+        du: movie.yt.duration,
         na: movie.name
       });
     });
