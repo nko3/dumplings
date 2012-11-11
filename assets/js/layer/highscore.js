@@ -13,7 +13,12 @@
     var $user = $("<td/>").html(user);
     item.append($user);
 
-    var $score = $("<td/>").text(parseInt(score.points, 10));
+    var points = parseInt(score.points, 10);
+    if (isNaN(points)) {
+      points = 0;
+    }
+
+    var $score = $("<td/>").text(points);
     item.append($score);
     return item;
   }
