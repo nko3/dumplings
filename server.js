@@ -296,7 +296,7 @@ io.on('connection', function(socket) {
 
       game.players.forEach(function(player) {
         console.log('player',player,goodAnswer);
-        PlayerDB.findById(player,function(err,playerObj) {
+        PlayerDB.findById(currentPlayer,function(err,playerObj) {
             if (playerObj) {
               getPS(player).emit('game-answered',{
                 game_id: game_id,
