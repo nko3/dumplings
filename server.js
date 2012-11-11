@@ -88,6 +88,10 @@ function randMovies(cb) {
 
   var coll = movies.splice( parseInt( (Math.random()*(movies.length-20)) ),20);
 
+  if (coll.length != 20) {
+    coll = movies.splice( parseInt( (Math.random()*(movies.length-20)) ),20);
+  }
+
   var selected = [], selected_num = 0, correct = {};
 
     coll.forEach(function(movie) {
