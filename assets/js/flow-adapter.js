@@ -40,8 +40,10 @@
     _game_flow: function () {
       if (game_link_exists()) {
         // TAK
-
         var game_id = get_hash_params("game");
+
+        trailer.GAME_ID = game_id;
+
         socket.emit("game-join", game_id);
         console.log("COMMAND game-join", game_id);
       } else {
