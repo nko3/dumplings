@@ -6,7 +6,7 @@
 
   global.thanks = {
     on_close: function (callback) {
-      console.log("[page] thanks.on_close");
+      // console.log("[page] thanks.on_close");
       setTimeout(function () {
         callback();
       }, 5 * 1000);

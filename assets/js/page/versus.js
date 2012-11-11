@@ -6,6 +6,8 @@
 
   // public API
   global.versus = {
+    _players: [],
+
     init: function () {
       // console.log("[page] versus.init");
       var percent = 0,
@@ -24,6 +26,9 @@
 
     set_players: function (players) {
       // console.log("[page] versus.set_players", players);
+
+      versus._players = players;
+
       var left_player = players[0].name,
         right_player = players[1].name;
 

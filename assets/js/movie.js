@@ -66,7 +66,7 @@
     this._lib.setControls(false);
 
     // max glosnika
-    this._lib.setVolume(100);
+    this._lib.setVolume(0);
   };
 
   Movie.prototype._events = function () {
@@ -82,7 +82,7 @@
       var rand_percent = get_rand_value_between(5, 20);
       var rand_second = get_value_of_percent(self._config.duration, rand_percent);
       self._lib.seek(rand_second);
-      console.log("[game] seek #" + self._uid + " do " + rand_percent + "% dla tego filmu bedzie to " + rand_second + "s");
+      // console.log("[game] seek #" + self._uid + " do " + rand_percent + "% dla tego filmu bedzie to " + rand_second + "s");
 
       game_process_indicator.grow_loading_bar();
 
@@ -152,7 +152,7 @@
   };
 
   Movie.prototype.play_movie = function (callback) {
-    console.log("[game] Movie#" + this._uid + " play");
+    console.log("[game] Movie#" + this._uid + " play URL " + this._config.url);
 
     trailer.MOVIE_ID = this._config.id;
 
@@ -162,7 +162,9 @@
         finish_interval;
 
     game_process_indicator.update_current_page_number(this._uid + 1);
+
     this._dom.show();
+    this._lib.setVolume(100);
     this._lib.play();
 
     finish_interval = setInterval(function () {

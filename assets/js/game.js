@@ -81,6 +81,7 @@
 
           thanks.on_close(function () {
             screen_manager.show_screen("screen-results");
+            game_results.init();
           });
 
         }, player_manager._movies);
