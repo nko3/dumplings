@@ -76,6 +76,8 @@
             console.log("✓ All movies loaded");
 
             video_manager.show_videos();
+            answer_manager.show_answers();
+
             process_indicator.show_play_bar();
             process_indicator.hide_progress_bar();
 
@@ -83,6 +85,7 @@
               console.log("✓ All movies played!");
 
               video_manager.hide_videos();
+              answer_manager.hide_answers();
 
               screen_manager.show_screen("screen-thanks");
               process_indicator.hide_play_bar();
@@ -148,5 +151,16 @@
 
   $(function () {
     flow_adapter.init();
+
+    $(".new-game").on("click", function () {
+      // czyscimy cookie
+      pklib.cookie.remove("user_name");
+      pklib.cookie.remove("user_id");
+      // redirect do glownej strony
+      var protocol = document.location.protocol;
+      var host = document.location.host;
+      var url = protocol + "//" + host;
+      document.location = url;
+    })
   });
 }).call(this);

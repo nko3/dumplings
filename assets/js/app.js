@@ -8,6 +8,7 @@
 //= require movie.js
 //= require movie-manager.js
 //= require process-indicator.js
+//= require answer-manager.js
 //= require video-manager.js
 //= require screen-manager.js
 //= require flow-adapter.js

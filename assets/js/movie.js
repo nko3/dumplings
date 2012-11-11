@@ -183,6 +183,7 @@
       list.append(self._create_dom_answer(answers[i]))
     }
 
+    $(".answers").empty();
     $(".answers").append(list);
     $(".answers").append($("<div />").addClass("clearfix"));
   };

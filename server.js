@@ -47,7 +47,6 @@ function randMovies(cb) {
       if (selected_num >= num) {
         var trig = false;
         _.each(selected, function (value, key) {
-          console.log(value, key);
           if (!("answers" in selected[key])) {
             selected[key].answers = [];
           }
