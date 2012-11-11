@@ -24,8 +24,8 @@
 
     set_players: function (players) {
       console.log("[page] versus.set_players", players);
-      var left_player = players[0],
-        right_player = players[1];
+      var left_player = players[0].name,
+        right_player = players[1].name;
 
       $(".left-opponent").html(left_player);
       $(".right-opponent").html(right_player);
