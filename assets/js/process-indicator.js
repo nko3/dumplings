@@ -8,7 +8,7 @@
   var current_percent_progress = 0;
 
   function can_change(new_percent) {
-    return new_percent > current_percent_progress && new_percent < 100;
+    return new_percent > current_percent_progress && new_percent <= 100;
   }
 
   function update_progress_view(percent) {
@@ -51,8 +51,12 @@
       $(".screen-game .game-loading-panel").remove();
     },
 
-    grow_loading_percent_value: function (val, max) {
+    grow_loading_percent_value_of: function (val, max) {
       update_progress(get_percent_value_of(val, max));
+    },
+
+    grow_loading_percent: function (percent) {
+      update_progress(percent);
     },
 
     grow_loading_bar: function () {

@@ -46,14 +46,18 @@
       ready_movies = self._get_number_of_ready_movies();
 
       // aktualizujemy pasek postepu
-      process_indicator.grow_loading_percent_value(ready_movies, max_ready_movies);
+      process_indicator.grow_loading_percent_value_of(ready_movies, max_ready_movies);
 
 //      console.log("ready_movies", ready_movies, "max_ready_movies", max_ready_movies);
 
       // jeśli wszystkie są ready to uruchamiamy callback
       if (ready_movies === max_ready_movies) {
         clearInterval(ready_interval);
-        callback();
+        process_indicator.grow_loading_percent(100);
+
+        setTimeout(function () {
+          callback();
+        }, 1000);
       }
     }, 10);
   };
