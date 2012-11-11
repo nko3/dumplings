@@ -45,12 +45,6 @@
 
       trailer.List = data.movies;
 
-      for (var i = 0; i < trailer.List.length; ++i) {
-        if (!("duration" in trailer.List[i])) {
-          trailer.List[i].duration = 3 * 60;
-        }
-      }
-
       screen_manager.show_screen("screen-game");
 
       var player_manager = new trailer.MovieManager();

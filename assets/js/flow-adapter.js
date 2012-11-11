@@ -74,13 +74,9 @@
       // przechwytujemy akcje wyslania forma
       $(".login-form form").submit(function (evt) {
         var trim_name = pklib.string.trim(name.val());
-        if (Config.env === "production") {
-          alert("Wypierdalaj " + trim_name + "!");
-        } else {
-          if (!submit.hasClass("disabled")) {
-            flow_adapter.submit_login_form(trim_name);
-            submit.addClass("disabled");
-          }
+        if (!submit.hasClass("disabled")) {
+          flow_adapter.submit_login_form(trim_name);
+          submit.addClass("disabled");
         }
 
         evt.preventDefault();

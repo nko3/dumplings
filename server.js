@@ -2,7 +2,7 @@
 /**
  * TrailerRoll
  */
-
+"use strict";
 
 console.log("TrailerRoll starting");
 
@@ -44,6 +44,7 @@ var players = {};
 
 // movies cache
 var movies = [];
+var mongoURI;
 
 io.configure('development', function () {
   io.disable('log');
@@ -83,12 +84,10 @@ preloadMovieDB();
 
 
 function randMovies(cb) {
-  var num = 2;
+  var num = 5;
 
-    
-  coll = movies.splice( parseInt( (Math.random()*(movies.length-20)) ),20);
-  
-  
+  var coll = movies.splice( parseInt( (Math.random()*(movies.length-20)) ),20);
+
   var selected = [], selected_num = 0, correct = {};
 
     coll.forEach(function(movie) {
@@ -431,8 +430,8 @@ io.on('connection', function(socket) {
 
 });
 
-
 app.get('/', function(req, res){
+  var socket;
 
   if (app.get('env') == 'production') {
     socket = 'http://dumplings.nko3.jit.su/';
