@@ -156,8 +156,14 @@
     socket.on('status', function (data) {
       console.log('[dashboard] ✓ status: ', data);
 
+      var points = data.points;
+
+      if (typeof points !== "number") {
+        points = 0;
+      }
+
       $(".dashboard .games").text(data.games);
-      $(".dashboard .points").text(data.points.toFixed(3));
+      $(".dashboard .points").text(points.toFixed(3));
     });
   });
 }).call(this);
