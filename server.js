@@ -83,7 +83,7 @@ preloadMovieDB();
 
 
 function randMovies(cb) {
-  var num = 5;
+  var num = 2;
 
     
   coll = movies.splice( parseInt( (Math.random()*(movies.length-20)) ),20);

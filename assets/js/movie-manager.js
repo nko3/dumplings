@@ -10,7 +10,7 @@
   }
 
   MovieManager.prototype.create_movies = function (number) {
-    console.log("[game] MovieManager create_movies");
+    // console.log("[game] MovieManager create_movies");
 
     var i = 0;
 
@@ -24,12 +24,12 @@
   MovieManager.prototype._create_movie = function () {
     var uid = this._last_movie_id++;
     var settings = trailer.List[uid];
-    settings.id = uid;
+    settings.player_id = uid;
     return new trailer.Movie(settings);
   };
 
   MovieManager.prototype.load_all_movies_buffer = function (callback) {
-    console.log("[game] MovieManager load_all_movies_buffer");
+    // console.log("[game] MovieManager load_all_movies_buffer");
 
     var self = this,
       ready_movies = 0,
@@ -91,7 +91,8 @@
         });
         watch_movie_process_indicator.clear();
 
-        console.log("[game] Played#" + uid + " finish");
+        console.log("[game] Movie#" + uid + " finish");
+        console.log("--------------------------------");
         self.play_queue(callback, movies);
       });
 

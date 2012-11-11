@@ -9,7 +9,7 @@
     // ustawienia materialu filmoweg
     this._config = config;
     // ID filmu, inkrementowane od 0
-    this._uid = config.id;
+    this._uid = config.player_id;
     // init library jwplayer
     this._lib = null;
     // reprezentacja DOM
@@ -66,7 +66,7 @@
     this._lib.setControls(false);
 
     // max glosnika
-    this._lib.setVolume(100);
+    this._lib.setVolume(0);
   };
 
   Movie.prototype._events = function () {
@@ -82,7 +82,7 @@
       var rand_percent = get_rand_value_between(5, 20);
       var rand_second = get_value_of_percent(self._config.duration, rand_percent);
       self._lib.seek(rand_second);
-      console.log("[game] seek #" + self._uid + " do " + rand_percent + "% dla tego filmu bedzie to " + rand_second + "s");
+      // console.log("[game] seek #" + self._uid + " do " + rand_percent + "% dla tego filmu bedzie to " + rand_second + "s");
 
       game_process_indicator.grow_loading_bar();
 
@@ -91,7 +91,11 @@
 
     this._lib.onTime(function () {
       var current_time = parseInt((self._lib.getPosition()).toFixed(0), 10);
-      watch_movie_process_indicator.grow(get_percent_value_of(current_time - self._start_time, Movie.MAX_MOVIE_PLAY));
+      var timeout = self._lib.getPosition() - self._start_time;
+
+      trailer.ANSWER_TIMEOUT = timeout;
+
+      watch_movie_process_indicator.grow(get_percent_value_of(timeout, Movie.MAX_MOVIE_PLAY));
 
       if (self._is_ready) {
         return false;
@@ -148,15 +152,19 @@
   };
 
   Movie.prototype.play_movie = function (callback) {
-    console.log("[game] Movie#" + this._uid + " play");
+    console.log("[game] Movie#" + this._uid + " play URL " + this._config.url);
 
     trailer.MOVIE_ID = this._config.id;
+
+    trailer.ANSWER_TIMEOUT = 0;
 
     var self = this,
         finish_interval;
 
     game_process_indicator.update_current_page_number(this._uid + 1);
+
     this._dom.show();
+    this._lib.setVolume(100);
     this._lib.play();
 
     finish_interval = setInterval(function () {

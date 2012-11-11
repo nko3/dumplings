@@ -18,7 +18,7 @@
       if (user_id !== null) {
         // JEST COOKIE
         socket.emit('player-login', user_id);
-        console.log("COMMAND player-login", user_id);
+        console.log("COMMAND player-login \"" + user_id + "\"");
 
         flow_adapter._game_flow();
       } else {
@@ -34,16 +34,18 @@
       pklib.cookie.create("user_name", name);
 
       socket.emit("player-create", name);
-      console.log("COMMAND: player-create: " + name);
+      console.log("COMMAND: player-create \"" + name + "\"");
     },
 
     _game_flow: function () {
       if (game_link_exists()) {
         // TAK
-
         var game_id = get_hash_params("game");
+
+        trailer.GAME_ID = game_id;
+
         socket.emit("game-join", game_id);
-        console.log("COMMAND game-join", game_id);
+        console.log("COMMAND game-join \"" + game_id + "\"");
       } else {
         // NIE
 
@@ -56,11 +58,10 @@
       var submit = $(".login-form .submit"),
         name = $(".name");
 
-      // keypress - > active submit
-      name.keyup(function () {
-        var _T = $(this);
-
-        if (_T.val().length) {
+      // keypress -> active submit
+      name.on("keyup blur click", function () {
+        var trim_name = pklib.string.trim($(this).val());
+        if (trim_name.length) {
           submit.removeClass("disabled");
         } else {
           submit.addClass("disabled");
@@ -72,10 +73,14 @@
 
       // przechwytujemy akcje wyslania forma
       $(".login-form form").submit(function (evt) {
+        var trim_name = pklib.string.trim(name.val());
         if (Config.env === "production") {
-          alert("Wypierdalaj " + name.val() + "!");
+          alert("Wypierdalaj " + trim_name + "!");
         } else {
-          flow_adapter.submit_login_form(name.val());
+          if (!submit.hasClass("disabled")) {
+            flow_adapter.submit_login_form(trim_name);
+            submit.addClass("disabled");
+          }
         }
 
         evt.preventDefault();

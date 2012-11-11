@@ -56,4 +56,4 @@ function get_hash_params(name) {
 
 $(function () {
   pklib.utils.action.outerlink();
-})
+});
