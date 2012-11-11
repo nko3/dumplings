@@ -115,8 +115,8 @@
       var link = $("[answer_id=" + data.answer_id + "]");
       var result = link.prev();
       result.fadeIn();
-      link.addClass((data.correct) ? "btn-success" : "btn-danger");
-      var answer = $("<span/>").html("<strong>" + data.player_name + "</strong> odpowiedział po " + data.time);
+      result.addClass((data.correct) ? "alert-success" : "alert-danger");
+      var answer = $("<span/>").html((data.correct) ? "✓" : "✗" + " <strong>" + data.player_name + "</strong> " + data.time.toFixed(3) + "s");
       result.append(answer);
     });
 

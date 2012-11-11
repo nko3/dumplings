@@ -181,7 +181,7 @@
 
   Movie.prototype._create_dom_answer = function (answer_obj) {
     var item = $("<li />");
-    var answer_result = $("<div/>").addClass("single-answer-result alert alert-info");
+    var answer_result = $("<div/>").addClass("single-answer-result alert");
     var link = $("<a />").html(answer_obj.title).addClass("btn btn-large");
     link.attr("answer_id", answer_obj.id);
     link.on("click", function (evt) {
