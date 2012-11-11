@@ -53,8 +53,9 @@
     var $movie_name = $("<td/>").html($("<span/>").addClass("label").text(movie.title));
     item.append($movie_name);
     var youtube_link = $("<a/>").attr({
-      "href": movie.url
-    });
+      "href": movie.url,
+      "rel": "outerlink"
+    }).text(movie.url);
     var $movie_youtube_url = $("<td/>").html(youtube_link);
     item.append($movie_youtube_url);
     return item;
@@ -76,6 +77,8 @@
     init: function (results) {
       update_view_answer_status(results);
       update_view_youtube();
+
+      pklib.utils.action.outerlink();
     }
   };
 }).call(this);
