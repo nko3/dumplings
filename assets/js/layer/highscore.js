@@ -22,6 +22,8 @@
   global.highscore = {
     init: function () {
       socket.emit('game-highscore', function (scores) {
+        console.log('[game] ✓ game-stopped', scores);
+
         var list = $("<tbody/>");
 
         for (var i = 0; i < scores.length; ++i) {
@@ -29,7 +31,7 @@
           list.append(score_row);
         }
 
-        $(".screen-highscore .highscore tbody").replaceWith(list);
+        $(".layer-highscore .highscore tbody").replaceWith(list);
       });
       console.log("COMMAND game-highscore /callback/");
     }

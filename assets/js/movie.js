@@ -168,20 +168,23 @@
     this._lib.play();
 
     finish_interval = setInterval(function () {
-      var current_time = parseInt((self._lib.getPosition()).toFixed(0), 10);
+      var current_position = self._lib.getPosition();
+      if (current_position !== null) {
+        var current_time = parseInt((current_position).toFixed(0), 10);
 
-      if (self._start_time + Movie.MAX_MOVIE_PLAY <= current_time) {
-        watch_movie_process_indicator.grow(100);
+        if (self._start_time + Movie.MAX_MOVIE_PLAY <= current_time) {
+          watch_movie_process_indicator.grow(100);
 
-        clearInterval(finish_interval);
-        callback(self._uid);
+          clearInterval(finish_interval);
+          callback(self._uid);
+        }
       }
     }, 300);
   };
 
   Movie.prototype._create_dom_answer = function (answer_obj) {
     var item = $("<li />");
-    var answer_result = $("<div/>").addClass("single-answer-result alert alert-info");
+    var answer_result = $("<div/>").addClass("single-answer-result alert");
     var link = $("<a />").html(answer_obj.title).addClass("btn btn-large");
     link.attr("answer_id", answer_obj.id);
     link.on("click", function (evt) {

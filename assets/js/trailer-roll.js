@@ -13,11 +13,11 @@
   }
 
   function show_rules() {
-    screen_manager.show_screen("screen-rules");
+    layer_manager.show_layer("layer-rules");
   }
 
   function show_highscore() {
-    screen_manager.show_screen("screen-highscore");
+    layer_manager.show_layer("layer-highscore");
     highscore.init();
   }
 

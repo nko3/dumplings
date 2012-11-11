@@ -1,10 +1,10 @@
 /**
- * TrailerRoll
+ * Trailer Challenge
  */
 
 "use strict";
 
-console.log("TrailerRoll starting");
+console.log("Trailer Challenge starting");
 
 var express = require('express')
   , routes = require('./routes')
@@ -514,6 +514,6 @@ app.get('/', function(req, res){
     socket = 'http://localhost:3000/';
   }
 
-  res.render('index', { title: 'TrailerRoll', config: { socket: socket, env: app.get('env') } });
+  res.render('index', { title: 'Trailer Challenge', config: { socket: socket, env: app.get('env') } });
 });
 
