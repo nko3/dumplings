@@ -67,6 +67,10 @@
         }
       });
 
+      // ustawiamy focus aby user mogl od razu wpisac swoj nick
+      $(".login-form #login").focus();
+
+      // przechwytujemy akcje wyslania forma
       $(".login-form form").submit(function (evt) {
         if (Config.env === "production") {
           alert("Wypierdalaj " + name.val() + "!");

@@ -7,26 +7,33 @@
   // aktualna liczba procentow loadera
   var current_percent_progress = 0;
 
-  function can_change(new_percent) {
+  function can_update(new_percent) {
     return new_percent > current_percent_progress && new_percent <= 100;
   }
 
   function update_progress_view(percent) {
-    $(".game-loading-panel .progress .bar").css({
+    var loader = $(".game-loading-panel .progress .bar");
+    loader.css({
       width: percent + "%"
     });
+
+    if (percent > 0) {
+      loader.html(percent + "%");
+    } else {
+      loader.empty();
+    }
   }
 
   function update_progress(percent) {
     // console.log("percent", percent);
-    if (can_change(percent)) {
+    if (can_update(percent)) {
       update_progress_view(percent);
       current_percent_progress = percent;
     }
   }
 
   // public API
-  global.process_indicator = {
+  global.game_process_indicator = {
     hide_play_bar: function () {
       $(".play-bar").fadeOut();
     },

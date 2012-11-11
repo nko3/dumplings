@@ -45,7 +45,7 @@
       // stworz playery
       player_manager.create_movies(5);
 
-      process_indicator.show_progress_bar();
+      game_process_indicator.show_progress_bar();
       video_manager.hide_videos();
 
       player_manager.load_all_movies_buffer(function () {
@@ -54,8 +54,8 @@
         video_manager.show_videos();
         answer_manager.show_answers();
 
-        process_indicator.show_play_bar();
-        process_indicator.hide_progress_bar();
+        game_process_indicator.show_play_bar();
+        game_process_indicator.hide_progress_bar();
 
         player_manager.play_queue(function () {
           console.log("✓ All movies played!");
@@ -64,7 +64,7 @@
           answer_manager.hide_answers();
 
           screen_manager.show_screen("screen-thanks");
-          process_indicator.hide_play_bar();
+          game_process_indicator.hide_play_bar();
 
           thanks.on_close(function () {
             screen_manager.show_screen("screen-results");

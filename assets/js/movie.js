@@ -63,7 +63,7 @@
     this._create_jwplayer_install();
 
     // wylaczamy kontrolki
-    this._lib.setControls(true);
+    this._lib.setControls(false);
 
     // max glosnika
     this._lib.setVolume(100);
@@ -84,17 +84,18 @@
       self._lib.seek(rand_second);
       console.log("[game] seek #" + self._uid + " do " + rand_percent + "% dla tego filmu bedzie to " + rand_second + "s");
 
-      process_indicator.grow_loading_bar();
+      game_process_indicator.grow_loading_bar();
 
       self._start_time = rand_second;
     });
 
     this._lib.onTime(function () {
+      var current_time = parseInt((self._lib.getPosition()).toFixed(0), 10);
+      watch_movie_process_indicator.grow(get_percent_value_of(current_time - self._start_time, Movie.MAX_MOVIE_PLAY));
+
       if (self._is_ready) {
         return false;
       }
-
-      var current_time = parseInt((self._lib.getPosition()).toFixed(0), 10);
 
       // zatrzymanie aby zbuforować od konkretnej minuty
       if (!started && current_time !== 0) {
@@ -152,7 +153,7 @@
     var self = this,
         finish_interval;
 
-    process_indicator.update_current_page_number(this._uid + 1);
+    game_process_indicator.update_current_page_number(this._uid + 1);
     this._dom.show();
     this._lib.play();
 
@@ -160,6 +161,8 @@
       var current_time = parseInt((self._lib.getPosition()).toFixed(0), 10);
 
       if (self._start_time + Movie.MAX_MOVIE_PLAY <= current_time) {
+        watch_movie_process_indicator.grow(100);
+
         clearInterval(finish_interval);
         callback(self._uid);
       }
