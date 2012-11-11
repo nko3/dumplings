@@ -467,10 +467,10 @@ io.on('connection', function(socket) {
 
             });
           } else {
-            socket.emit('error',"GAME IS FUCKED UP");
+            //socket.emit('error',"GAME IS FUCKED UP");
           }
         } else {
-          socket.emit('error','GAME HAS 2 PLAYERS ALREADY');
+          socket.emit('error','GAME HAS 2 PLAYERS ALREADY OR TIME IS UP!');
         }
     });
 
@@ -484,13 +484,19 @@ io.on('connection', function(socket) {
   });
 
   socket.on('player-create', function(name) {
-    var player = new PlayerDB({ name: name });
+    
+    var player = new PlayerDB({
+      name: name,
+      address: socket.handshake.address.address
+    });
+
     player.save(function(error) {
       if (!error) {
         players[player.id] = socket.id;
         socket.emit('player-create',{ id: player.id });
       }
-    })
+    });
+
   });
 
   //setInterval(function() {

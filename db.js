@@ -14,6 +14,7 @@ var playerSchema = mongoose.Schema({
   points: Number,
   games: Number,
   games_won: Number,
+  address: Mixed,
   created : { type: Date, default: Date.now }
 });
 
