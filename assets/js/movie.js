@@ -31,7 +31,7 @@
     this._events();
   }
 
-  Movie.MAX_MOVIE_PLAY = 10;
+  Movie.MAX_MOVIE_PLAY = 30;
 
   Movie.prototype._create_dom = function () {
     var name = 'movie_' + this._uid;
@@ -181,18 +181,21 @@
 
   Movie.prototype._create_dom_answer = function (answer_obj) {
     var item = $("<li />");
+    var answer_result = $("<div/>").addClass("single-answer-result alert alert-info");
     var link = $("<a />").html(answer_obj.title).addClass("btn btn-large");
     link.attr("answer_id", answer_obj.id);
     link.on("click", function (evt) {
       var li = $(this).parent();
       var siblings = li.siblings();
       siblings.find("a").off("click mousedown");
+      link.off("click mousedown");
 
       $(this).addClass("btn-warning");
       answer_manager.send_answer($(this).attr("answer_id"));
 
       evt.preventDefault();
     });
+    item.append(answer_result);
     item.append(link);
     return item;
   };
