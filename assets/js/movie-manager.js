@@ -23,7 +23,7 @@
 
   MovieManager.prototype._create_movie = function () {
     var uid = this._last_movie_id++;
-    var settings = trailer.List[uid];
+    var settings = trailer.Movies[uid];
     settings.player_id = uid;
     return new trailer.Movie(settings);
   };

@@ -7,7 +7,10 @@
   // global namespace
   var trailer = global.trailer = {};
 
-  global.trailer.List = [];
+  // movies
+  global.trailer.Movies = [];
+  // players
+  global.trailer.Players = [];
 
   // ID gry
   trailer.GAME_ID = 0
@@ -50,6 +53,8 @@
       screen_manager.show_screen("screen-versus");
       versus.init();
 
+      trailer.Players = data.players;
+
       // uzupelniamy nazwy playerow
       // narazie niestety sa to ID'ki
       versus.set_players(data.players);
@@ -58,14 +63,14 @@
     socket.on('game-start', function (data) {
       console.log('[game] ✓ game-start', data);
 
-      trailer.List = data.movies;
+      trailer.Movies = data.movies;
 
       screen_manager.show_screen("screen-game");
 
       var player_manager = new trailer.MovieManager();
 
       // stworz playery
-      player_manager.create_movies(trailer.List.length);
+      player_manager.create_movies(trailer.Movies.length);
 
       game_process_indicator.show_progress_bar();
       video_manager.hide_videos();

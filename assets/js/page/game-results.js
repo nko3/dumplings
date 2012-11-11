@@ -31,23 +31,51 @@
     return results[0].player_id;
   }
 
+  function update_view_answer_status(results) {
+    var is_winner = false,
+      list = $("<tbody/>"),
+      winner_id = get_winnder_id(results);
+
+    for (var i = 0; i < results.length; ++i) {
+      is_winner = (winner_id == results[i].player_id);
+      list.append(build_single_answer(results[i], is_winner));
+    }
+
+    $(".screen-results .answers-status tbody").replaceWith(list);
+
+    $(".success-bar .close").on("click", function () {
+      $(".success-bar").remove();
+    });
+  }
+
+  function build_single_youtube_url(movie) {
+    var item = $("<tr />");
+    var $movie_name = $("<td/>").html($("<span/>").addClass("label").text(movie.title));
+    item.append($movie_name);
+    var youtube_link = $("<a/>").attr({
+      "href": movie.url
+    });
+    var $movie_youtube_url = $("<td/>").html(youtube_link);
+    item.append($movie_youtube_url);
+    return item;
+  }
+
+  function update_view_youtube() {
+    var movies = trailer.Movies,
+      list = $("<tbody/>");
+
+    for (var i = 0; i < movies.length; ++i) {
+      list.append(build_single_youtube_url(movies[i]));
+    }
+
+    $(".screen-results .movies-youtube-present tbody").replaceWith(list);
+  }
+
   /// public API
   global.game_results = {
     init: function (results) {
-      var is_winner = false,
-        list = $("<tbody/>"),
-        winner_id = get_winnder_id(results);
-
-      for (var i = 0; i < results.length; ++i) {
-        is_winner = (winner_id == results[i].player_id);
-        list.append(build_single_answer(results[i], is_winner));
-      }
-
-      $(".screen-results .answers-status tbody").replaceWith(list);
-
-      $(".success-bar .close").on("click", function () {
-        $(".success-bar").remove();
-      });
+      update_view_answer_status(results);
+      update_view_youtube();
     }
   };
 }).call(this);
