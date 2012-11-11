@@ -18,10 +18,10 @@
   }
 
   function get_winnder_id(results) {
-    results.sort(function (x, y) {
+    results = results.sort(function (x, y) {
       var n = x.correct - y.correct;
 
-      if (n != 0) {
+      if (n !== 0) {
         return n;
       }
 
