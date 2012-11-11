@@ -324,23 +324,27 @@ io.on('connection', function(socket) {
       var won_by_correct = _.invert(answer_correct)[_.max(answer_correct)];
       var won_by_time = _.invert(answer_correct)[_.min(answer_time)];
 
+      
+      var lastResults = [];
 
-      // p1 - 1/5, 1/20, 1 = 1.25
-      // p2 - 1/20, 1/20, 1 = 1.1
-      // p1 - 1, 1, 1
-      // p2 - 1, 1, 1/25
-      // p1 - 1/50, 1/50, 1/50
-      // p2 - 1/5,1,1/5
+      //game.playersInfos[]
 
-
-
-      if (won_by_time == won_by_correct) {
-        game.players.forEach(function(player) {
-          
+      game.players.forEach(function(player) {
+        lastResults.push({
+          player_id: player,
+          correct: answer_correct[player],
+          time: answer_time[player]
         });
-      }
+      });
 
-
+      forEachPlayer( game.players, function(player,playerExists) {
+        if (playerExists) {
+          getPS(player).emit('game-stopped',{
+            results: lastResults,
+            players: game.playersInfos
+          });
+        }
+      });
 
     });
 
