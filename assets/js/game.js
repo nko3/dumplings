@@ -22,12 +22,27 @@
   $(function () {
 
     global.socket = new io.connect(Config.socket, {
-      reconnect: false
+      reconnect: true
     });
 
     socket.on('connect', function () {
       console.log('[game] ✓ connected');
     });
+
+    socket.on('disconnect', function() {
+      console.log('[game] ✗ socket disconnected');
+    });
+
+    socket.on('reconnecting', function() {
+      console.log('[game] reconnecting...');
+    });
+
+    socket.on('reconnect', function() {
+      console.log('[game] ✓ reconnected');
+      flow_adapter.init();
+    });
+
+
     socket.on('game-ready', function (data) {
       console.log('[game] ✓ game-ready', data);
 

@@ -478,9 +478,15 @@ io.on('connection', function(socket) {
 
   });
 
-  socket.on('player-login', function(id) {
+  socket.on('player-login', function(playerId) {
     // log given player to current socket
-    players[id] = socket.id;
+    players[playerId] = socket.id;
+
+    socket.emit('player-loged',{
+      id: playerId,
+      socket_id: socket.id
+    });
+
   });
 
   socket.on('player-create', function(name) {
