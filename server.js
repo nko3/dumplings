@@ -348,8 +348,8 @@ io.on('connection', function(socket) {
       var answer_correct = {}, answer_time = {}; 
 
       game.players.forEach(function(player) {
-        answer_correct[player] = [];
-        answer_time[player] = [];
+        answer_correct[player] = 0;
+        answer_time[player] = 0;
       });
 
       game.answers.forEach(function(answer) {
@@ -366,23 +366,39 @@ io.on('connection', function(socket) {
       var lastResults = [];
 
       //game.playersInfos[]
+      //
+      //
+
+      
+      var parallel = [];
+
+
 
       game.players.forEach(function(player) {
-        lastResults.push({
-          player_id: player,
-          correct: answer_correct[player],
-          time: answer_time[player]
+        parallel.push(function(cb) {
+          PlayerDB.findById(player,function(err,playerObj) {
+            if (playerObj) {
+              cb(null,{
+                player: playerObj.name,
+                correct: answer_correct[player],
+                time: answer_time[player]
+              });
+            }
+          });
         });
       });
 
-      forEachPlayer( game.players, function(player,playerExists) {
-        if (playerExists) {
-          getPS(player).emit('game-stopped',{
-            results: lastResults,
-            players: game.playersInfos
-          });
-        }
+
+      async.parallel( parallel, function(err, results) {
+        game.players.forEach(function(player){
+          if (getPS(player)) {
+            getPS(player).emit('game-stopped',{
+              results: results
+            });
+          }
+        });
       });
+
 
     });
 
