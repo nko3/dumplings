@@ -91,7 +91,11 @@
 
     this._lib.onTime(function () {
       var current_time = parseInt((self._lib.getPosition()).toFixed(0), 10);
-      watch_movie_process_indicator.grow(get_percent_value_of(current_time - self._start_time, Movie.MAX_MOVIE_PLAY));
+      var timeout = current_time - self._start_time;
+
+      trailer.ANSWER_TIMEOUT = timeout;
+
+      watch_movie_process_indicator.grow(get_percent_value_of(timeout, Movie.MAX_MOVIE_PLAY));
 
       if (self._is_ready) {
         return false;
@@ -151,6 +155,8 @@
     console.log("[game] Movie#" + this._uid + " play");
 
     trailer.MOVIE_ID = this._config.id;
+
+    trailer.ANSWER_TIMEOUT = 0;
 
     var self = this,
         finish_interval;

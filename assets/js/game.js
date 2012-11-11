@@ -13,6 +13,9 @@
   // ID aktualnego mateiału filmowego
   trailer.MOVIE_ID = 0;
 
+  // czas jaki user oglada film przed wyslaniem odpowiedzi
+  trailer.ANSWER_TIMEOUT = 0;
+
   // let's rock!
   $(function () {
 
