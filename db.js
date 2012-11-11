@@ -11,6 +11,9 @@ var movieSchema = mongoose.Schema({
 
 var playerSchema = mongoose.Schema({
   name: String,
+  points: Number,
+  games: Number,
+  games_won: Number,
   created : { type: Date, default: Date.now }
 });
 
