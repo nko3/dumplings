@@ -173,13 +173,14 @@
 
   Movie.prototype._create_dom_answer = function (answer_obj) {
     var item = $("<li />");
-    item.append($("<a />").html(answer_obj.title).addClass("btn btn-large"));
-    item.attr("answer_id", answer_obj.id);
-    item.on("click", function (evt) {
+    var link = $("<a />").html(answer_obj.title).addClass("btn btn-large");
+    link.attr("answer_id", answer_obj.id);
+    link.on("click", function (evt) {
       $(this).addClass("btn-warning");
       answer_manager.send_answer($(this).attr("answer_id"));
       evt.preventDefault();
     });
+    item.append(link);
     return item;
   };
 
