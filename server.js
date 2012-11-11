@@ -92,7 +92,7 @@ function randMovies(cb) {
     coll = movies.splice( parseInt( (Math.random()*(movies.length-20)) ),20);
   }
 
-  console.log('rand movies movies='+movies.length);
+  console.log('rand movies = ' + movies.length);
 
   var selected = [], selected_num = 0, correct = {};
 

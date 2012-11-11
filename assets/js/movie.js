@@ -31,7 +31,7 @@
     this._events();
   }
 
-  Movie.MAX_MOVIE_PLAY = 25;
+  Movie.MAX_MOVIE_PLAY = 20;
 
   Movie.prototype._create_dom = function () {
     var name = 'movie_' + this._uid;
@@ -72,11 +72,6 @@
   Movie.prototype._events = function () {
     var self = this,
         started = false;
-
-    // jeśli user zatrzyma to puszczamy dalej film
-    this._lib.onPause(function () {
-      self._lib.play();
-    });
 
     this._lib.onBeforePlay(function () {
       if (self._is_ready) {

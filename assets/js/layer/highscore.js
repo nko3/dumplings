@@ -38,7 +38,7 @@
 
         $(".layer-highscore .highscore tbody").replaceWith(list);
       });
-      console.log("COMMAND game-highscore /callback/");
+      console.log("COMMAND: game-highscore /callback/");
     }
   };
 }).call(this);

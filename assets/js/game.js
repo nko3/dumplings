@@ -21,8 +21,10 @@
   // czas jaki user oglada film przed wyslaniem odpowiedzi
   trailer.ANSWER_TIMEOUT = 0;
 
+
   // let's rock!
-  $(function () {
+  trailer.setup_game = function () {
+    console.log("[game] trailer.setup_game");
 
     global.socket = new io.connect(Config.socket, {
       reconnect: true
@@ -44,7 +46,6 @@
       console.log('[game] ✓ reconnected');
       flow_adapter.init();
     });
-
 
     socket.on('game-ready', function (data) {
       console.log('[game] ✓ game-ready', data);
@@ -93,7 +94,7 @@
           game_process_indicator.hide_play_bar();
 
           socket.emit("game-stop", trailer.GAME_ID);
-          console.log("COMMAND game-stop \"" + trailer.GAME_ID + "\"");
+          console.log("COMMAND: game-stop \"" + trailer.GAME_ID + "\"");
 
         }, player_manager._movies);
       });
@@ -171,6 +172,6 @@
       $(".dashboard .points").text(points.toFixed(3));
       $(".dashboard").fadeIn();
     });
-  });
+  };
 }).call(this);
 

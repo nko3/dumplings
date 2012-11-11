@@ -18,6 +18,6 @@
 //= require screen-manager.js
 //= require layer-manager.js
 //= require flow-adapter.js
-//= require trailer-roll.js
 //= require message.js
+//= require __init__.js
 

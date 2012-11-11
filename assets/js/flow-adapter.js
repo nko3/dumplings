@@ -11,14 +11,14 @@
   // public API
   global.flow_adapter = {
     init: function () {
-      // console.log("[game] flow_adapter.init");
+      console.log("[game] flow_adapter.init");
 
       var user_id = pklib.cookie.get("user_id");
 
       if (user_id !== null) {
         // JEST COOKIE
         socket.emit('player-login', user_id);
-        console.log("COMMAND player-login \"" + user_id + "\"");
+        console.log("COMMAND: player-login \"" + user_id + "\"");
 
         flow_adapter._game_flow();
       } else {
@@ -29,7 +29,7 @@
     },
 
     submit_login_form: function (name) {
-      // console.log("[game] flow_adapter.submit_login_form");
+      console.log("[game] flow_adapter.submit_login_form");
 
       pklib.cookie.create("user_name", name);
 
@@ -38,23 +38,28 @@
     },
 
     _game_flow: function () {
+      console.log("[game] flow_adapter._game_flow");
+
       if (game_link_exists()) {
         // TAK
         var game_id = get_hash_params("game");
-
         trailer.GAME_ID = game_id;
 
         socket.emit("game-join", game_id);
-        console.log("COMMAND game-join \"" + game_id + "\"");
+        console.log("COMMAND: game-join \"" + game_id + "\"");
       } else {
         // NIE
-
         socket.emit('game-create');
         console.log("COMMAND: game-create");
       }
     },
 
     _login_flow: function () {
+      console.log("[game] flow_adapter._login_flow");
+
+      // show login screen
+      screen_manager.show_screen("screen-hello");
+
       var submit = $(".login-form .submit"),
         name = $(".name");
 
