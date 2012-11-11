@@ -115,7 +115,7 @@ function randMovies(cb) {
           id: movie.yt,
           url: "http://www.youtube.com/watch?v=" + movie.yt,
           duration: movie.du,
-          title: movie.name,
+          title: movie.na,
           answers: [{
             id: movie.id,
             title: movie.na
