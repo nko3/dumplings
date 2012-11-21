@@ -5,7 +5,7 @@ html
     != css('app')
     script
       var Config = {
-        socket : "#{config.socket}",
+        socket : document.location.toString(),
         env: "#{config.env}"
       };
     != js('app')
