@@ -85,14 +85,10 @@ preloadMovieDB();
 
 function randMovies(cb) {
   var num = 5;
+  var randPosition = parseInt((Math.random()*(movies.length-20)));
+  var coll = movies.slice( randPosition, randPosition + 20 );
 
-  var coll = movies.splice( parseInt( (Math.random()*(movies.length-20)) ),20);
-
-  if (coll.length != 20) {
-    coll = movies.splice( parseInt( (Math.random()*(movies.length-20)) ),20);
-  }
-
-  console.log('rand movies = ' + movies.length);
+  console.log('randMovies', coll.length, movies.length);
 
   var selected = [], selected_num = 0, correct = {};
 
