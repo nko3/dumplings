@@ -1,11 +1,15 @@
 # Trailer Challange!
 
+http://dumplings.nko3.jitsu.com
+
 This application was made for Node.js Knockout ( 48-hour hackathon ) by
 [@kamil](http://kamilzaleski.com) and [@piecioshka](http://blog.piecioshka.pl/o-sobie).
 
 You can see our votes at http://nodeknockout.com/teams/dumplings
 
-URL: http://dumplings.nko3.jitsu.com
+
+
+_Code changes after hackaton is only for deploy and must have fixes related staff._
 
 ## How to play
 
