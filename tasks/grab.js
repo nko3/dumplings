@@ -7,10 +7,7 @@ var http = require('http'),
     _ = require('underscore'),
     dbSchema = require('./../db');
 
-var mongoURI = 'mongodb://nodejitsu_nko3-dumplings:ohkkhs8l2imtcf4paphpnrmv7o@ds039257.mongolab.com:39257/nodejitsu_nko3-dumplings_nodejitsudb3493680560';
-var mongoURIPROD = 'mongodb://nodejitsu_nko3-dumplings:b3s2jallg1jj57n3pl3qirtirn@ds039267.mongolab.com:39267/nodejitsu_nko3-dumplings_nodejitsudb25521072';
-
-var db = mongoose.createConnection(mongoURI);
+var db = mongoose.createConnection(process.env.MONGODB_URI);
 
 var GameDB    = db.model('games',   dbSchema.gameSchema);
 var PlayerDB  = db.model('players', dbSchema.playerSchema);
