@@ -48,13 +48,13 @@ var mongoURI;
 
 io.configure('development', function () {
   io.disable('log');
-  mongoURI = 'mongodb://nodejitsu_nko3-dumplings:ohkkhs8l2imtcf4paphpnrmv7o@ds039257.mongolab.com:39257/nodejitsu_nko3-dumplings_nodejitsudb3493680560';
+  mongoURI = 'mongodb://localhost/tc-development';
   console.log('ENV:DEVELOPMENT');
 });
 
 io.configure('production', function () {
   io.disable('log');
-  mongoURI = 'mongodb://nodejitsu_nko3-dumplings:b3s2jallg1jj57n3pl3qirtirn@ds039267.mongolab.com:39267/nodejitsu_nko3-dumplings_nodejitsudb25521072';
+  mongoURI = process.env.MONGODB_URI;
   console.log("ENV:PRODUCTION");
 });
 
